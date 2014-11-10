@@ -14,8 +14,8 @@ import javax.swing.JPanel;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update November 2nd 2014 Latest update of this file
- * @LatestUpdate Creation of file, made first panel.
+ * @update November 10nd 2014 Latest update of this file
+ * @LatestUpdate Put project in git repository
  * 
  */
 
