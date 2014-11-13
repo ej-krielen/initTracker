@@ -21,7 +21,7 @@ import javax.swing.TransferHandler;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update November 12nd 2014 Latest update of this file
+ * @update November 13nd 2014 Latest update of this file
  * @LatestUpdate Added core ui elements, working on drag and drop/swap
  * 
  */
@@ -55,6 +55,7 @@ public class AppMain extends JFrame {
 	JSeparator bottomSeperator = new JSeparator();
 
 	// Character panels
+
 	JPanel firstCharacter = new JPanel();
 	JButton firstDragButton = new JButton("1");
 
@@ -100,16 +101,15 @@ public class AppMain extends JFrame {
 		secondCharacter.setBackground(Color.red);
 		secondDragButton.setBounds(5, 10, 50, 80);
 
-		
-		//make elements draggable
-		
+		// make elements draggable
+
 		MouseListener listener = new DragMouseAdapter();
-	    firstDragButton.addMouseListener(listener);
-	    secondDragButton.addMouseListener(listener);
-	    
-	    firstDragButton.setTransferHandler(new TransferHandler("text"));
-	    secondDragButton.setTransferHandler(new TransferHandler("text"));
-		
+		firstDragButton.addMouseListener(listener);
+		secondDragButton.addMouseListener(listener);
+
+		firstDragButton.setTransferHandler(new TransferHandler("text"));
+		secondDragButton.setTransferHandler(new TransferHandler("text"));
+
 		// add elementals to the panel layout
 		// TODO add elements to panel
 
@@ -139,9 +139,9 @@ public class AppMain extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		interfaceControls();
-
+		
 	}
-	
+
 	/**
 	 * 
 	 * Drag functionality
@@ -154,17 +154,24 @@ public class AppMain extends JFrame {
 			handler.exportAsDrag(c, e, TransferHandler.COPY);
 		}
 	}
+	
+	
 
 	/**
 	 * Behavior of interface elements are defined here
 	 */
 	public void interfaceControls() {
 
-		// Behavior of the createUserButton
-		firstDragButton.addActionListener(new ActionListener() {
+		
+		/**
+		 * When user clicks on button, create a new panel
+		 */
+		// Behavior of addPlayerButton
+		addPlayerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-
-			}
-		});// Behavior of the createUserButton
+				//TODO
+								
+				}
+		});	// Behavior of addPlayerButton
 	}
 }

@@ -9,6 +9,6 @@ package characters;
  * 
  * */
 
-public class Charachter {
+public class Character {
 
 }
