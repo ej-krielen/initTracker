@@ -13,9 +13,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 
-import swingUtilities.Utility;
+import controls.Utility;
 
 /**
  * User interface is built here.
@@ -24,7 +25,7 @@ import swingUtilities.Utility;
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
  * @update November 13nd 2014 Latest update of this file
- * @LatestUpdate Added core ui elements, working on drag and drop/swap
+ * @LatestUpdate Added core ui elements, working on adding panels dynamically
  * 
  */
 
@@ -172,11 +173,22 @@ public class AppMain extends JFrame {
 		addPlayerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				//repository.addPlayerCharacter();
-				panel.add(new JButton("Button"));
-				 panel.revalidate();
-				 validate();
-								
-				}
+				SwingUtilities.invokeLater(new Runnable() {
+
+					@Override
+					public void run() {
+						JLabel testLabel = new JLabel("Test");
+						testLabel.setBounds(5, 400, 50, 20);
+						panel.add(testLabel);
+						panel.validate();
+	                    panel.repaint();
+					
+					}
+							
+				
 		});	// Behavior of addPlayerButton
 	}
+		});
+	}
 }
+
