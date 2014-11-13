@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.TransferHandler;
 
+import swingUtilities.Utility;
+
 /**
  * User interface is built here.
  * 
@@ -155,7 +157,7 @@ public class AppMain extends JFrame {
 		}
 	}
 	
-	
+	private Utility repository = Utility.getInstance();
 
 	/**
 	 * Behavior of interface elements are defined here
@@ -169,7 +171,10 @@ public class AppMain extends JFrame {
 		// Behavior of addPlayerButton
 		addPlayerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				//TODO
+				//repository.addPlayerCharacter();
+				panel.add(new JButton("Button"));
+				 panel.revalidate();
+				 validate();
 								
 				}
 		});	// Behavior of addPlayerButton
