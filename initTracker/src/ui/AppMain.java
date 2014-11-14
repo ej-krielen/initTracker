@@ -1,6 +1,5 @@
 package ui;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -16,6 +15,7 @@ import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 
+import characters.PlayerCharacter;
 import controls.Utility;
 
 /**
@@ -24,8 +24,8 @@ import controls.Utility;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update November 13nd 2014 Latest update of this file
- * @LatestUpdate Added core ui elements, working on adding panels dynamically
+ * @update November 14th 2014 Latest update of this file
+ * @LatestUpdate Added adding panels dynamically
  * 
  */
 
@@ -57,14 +57,6 @@ public class AppMain extends JFrame {
 
 	JSeparator bottomSeperator = new JSeparator();
 
-	// Character panels
-
-	JPanel firstCharacter = new JPanel();
-	JButton firstDragButton = new JButton("1");
-
-	JPanel secondCharacter = new JPanel();
-	JButton secondDragButton = new JButton("2");
-
 	/**
 	 * Constructor to make the interface
 	 */
@@ -76,8 +68,6 @@ public class AppMain extends JFrame {
 		setSize(1200, 750);
 		setLocation(250, 50);
 		panel.setLayout(null);
-		firstCharacter.setLayout(null);
-		secondCharacter.setLayout(null);
 
 		// set pos x, pos y, width and height of each element
 		// TODO setbound of elements
@@ -96,22 +86,15 @@ public class AppMain extends JFrame {
 
 		bottomSeperator.setBounds(0, 130, 1200, 2);
 
-		firstCharacter.setBounds(5, 150, 1150, 100);
-		firstCharacter.setBackground(Color.black);
-		firstDragButton.setBounds(5, 10, 50, 80);
-
-		secondCharacter.setBounds(5, 250, 1150, 100);
-		secondCharacter.setBackground(Color.red);
-		secondDragButton.setBounds(5, 10, 50, 80);
-
 		// make elements draggable
 
 		MouseListener listener = new DragMouseAdapter();
-		firstDragButton.addMouseListener(listener);
+		//TODO add dynamically added panels
+/*		firstDragButton.addMouseListener(listener);
 		secondDragButton.addMouseListener(listener);
 
 		firstDragButton.setTransferHandler(new TransferHandler("text"));
-		secondDragButton.setTransferHandler(new TransferHandler("text"));
+		secondDragButton.setTransferHandler(new TransferHandler("text"));*/
 
 		// add elementals to the panel layout
 		// TODO add elements to panel
@@ -131,12 +114,6 @@ public class AppMain extends JFrame {
 
 		panel.add(bottomSeperator);
 
-		panel.add(firstCharacter);
-		firstCharacter.add(firstDragButton);
-
-		panel.add(secondCharacter);
-		secondCharacter.add(secondDragButton);
-
 		// methods needed for default interface behavior
 		getContentPane().add(panel);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -155,6 +132,7 @@ public class AppMain extends JFrame {
 			JComponent c = (JComponent) e.getSource();
 			TransferHandler handler = c.getTransferHandler();
 			handler.exportAsDrag(c, e, TransferHandler.COPY);
+			//TODO make it a swap location drag and drop
 		}
 	}
 	
@@ -165,6 +143,7 @@ public class AppMain extends JFrame {
 	 */
 	public void interfaceControls() {
 
+		//TODO add more actions
 		
 		/**
 		 * When user clicks on button, create a new panel
@@ -173,13 +152,13 @@ public class AppMain extends JFrame {
 		addPlayerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				//repository.addPlayerCharacter();
+				//TODO extract to utility if possible
 				SwingUtilities.invokeLater(new Runnable() {
 
 					@Override
 					public void run() {
-						JLabel testLabel = new JLabel("Test");
-						testLabel.setBounds(5, 400, 50, 20);
-						panel.add(testLabel);
+						JPanel newPanel = new PlayerCharacter();
+						panel.add(newPanel);
 						panel.validate();
 	                    panel.repaint();
 					
