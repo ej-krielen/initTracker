@@ -17,14 +17,14 @@ import controls.Utility;
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
  * @update November 14th 2014 Latest update of this file
- * @LatestUpdate Made it into a panel, added components
+ * @LatestUpdate Adjusted getters and setters for Swing
  * 
  * */
 
 @SuppressWarnings("serial")
 public class PlayerCharacter extends JPanel {
 
-	//acces the methods stored in controls.Utility
+	// acces the methods stored in controls.Utility
 	private Utility repository = Utility.getInstance();
 
 	// variables used
@@ -94,25 +94,27 @@ public class PlayerCharacter extends JPanel {
 	SpinnerModel debuffModelBR = new SpinnerNumberModel(0, 0, 9999, 1);
 
 	public PlayerCharacter() {
-				
+
 		Utility.increasePlayerCharacterCounter();
 		panel_Y_pos = repository.getPanelYpos(Utility
 				.getPlayerCharacterCounter());
 
-		//Alternates background color of the created instances between gray and light gray
+		// Alternates background color of the created instances between gray and
+		// light gray
 		if (Utility.getPlayerCharacterCounter() % 2 <= 0) {
 			setBackground(Color.GRAY);
 		} else {
 			setBackground(Color.LIGHT_GRAY);
 		}
 
-		//Set the bounds of the new instance (x pos, y pos, width, height)
+		// Set the bounds of the new instance (x pos, y pos, width, height)
 		setBounds(PANEL_X, panel_Y_pos, PANELWIDTH, PANELHEIGHT);
 		setLayout(null);
 
 		// initiate components with values
 		iniativeSpinner = new JSpinner(iniativeModel);
-		nameArea = new JTextArea("Player " + Utility.getPlayerCharacterCounter());
+		nameArea = new JTextArea("Player "
+				+ Utility.getPlayerCharacterCounter());
 		notesArea = new JTextArea("Notes: ");
 		hpSpinner = new JSpinner(hpModel);
 		debuffTopLeftSpinner = new JSpinner(debuffModelTL);
@@ -145,7 +147,7 @@ public class PlayerCharacter extends JPanel {
 				DEBUFFHEIGHT);
 		debuffsLabel.setBounds(580, LABEL_Y, ((DEBUFFWIDTH * 3) + 5),
 				LABELHEIGHT);
-		
+
 		// add elementals to the instance panel
 		this.add(dragButton);
 		this.add(iniativeSpinner);
@@ -165,86 +167,128 @@ public class PlayerCharacter extends JPanel {
 
 	}
 
-	// getters and setters
-	//TODO values of components
+	// getters and setters modified!
+	// getters first check swing component
+	// setters also set the component to new value if not the same as current
+	// value
 	public String getName() {
+		setName(nameArea.getText());
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+		if (!nameArea.getText().equals(name)) {
+			nameArea.setText(name);
+		}
 	}
 
 	public int getIniative() {
+		setIniative((int) iniativeSpinner.getValue());
 		return iniative;
 	}
 
 	public void setIniative(int iniative) {
 		this.iniative = iniative;
+		if ((int) iniativeSpinner.getValue() != iniative) {
+			iniativeSpinner.setValue(iniative);
+		}
 	}
 
 	public String getNotes() {
+		setNotes(notesArea.getText());
 		return notes;
 	}
 
 	public void setNotes(String notes) {
 		this.notes = notes;
+		if (!notesArea.getText().equals(notes)) {
+			notesArea.setText(notes);
+		}
 	}
 
 	public int getHp() {
+		setHp((int) hpSpinner.getValue());
 		return hp;
 	}
 
 	public void setHp(int hp) {
 		this.hp = hp;
+		if ((int) hpSpinner.getValue() != hp) {
+			hpSpinner.setValue(hp);
+		}
 	}
 
 	public int getDebuffTopLeft() {
+		setDebuffTopLeft((int) debuffTopLeftSpinner.getValue());
 		return debuffTopLeft;
 	}
 
 	public void setDebuffTopLeft(int debuffTopLeft) {
 		this.debuffTopLeft = debuffTopLeft;
+		if ((int) debuffTopLeftSpinner.getValue() != debuffTopLeft) {
+			debuffTopLeftSpinner.setValue(debuffTopLeft);
+		}
 	}
 
 	public int getDebuffTopCenter() {
+		setDebuffTopCenter((int) debuffTopCenterSpinner.getValue());
 		return debuffTopCenter;
 	}
 
 	public void setDebuffTopCenter(int debuffTopCenter) {
 		this.debuffTopCenter = debuffTopCenter;
+		if ((int) debuffTopCenterSpinner.getValue() != debuffTopCenter) {
+			debuffTopCenterSpinner.setValue(debuffTopCenter);
+		}
 	}
 
 	public int getDebuffTopRight() {
+		setDebuffTopRight((int) debuffTopRightSpinner.getValue());
 		return debuffTopRight;
 	}
 
 	public void setDebuffTopRight(int debuffTopRight) {
 		this.debuffTopRight = debuffTopRight;
+		if ((int) debuffTopRightSpinner.getValue() != debuffTopRight) {
+			debuffTopRightSpinner.setValue(debuffTopRight);
+		}
 	}
 
 	public int getDebuffBottomLeft() {
+		setDebuffBottomLeft((int) debuffBottomLeftSpinner.getValue());
 		return debuffBottomLeft;
 	}
 
 	public void setDebuffBottomLeft(int debuffBottomLeft) {
 		this.debuffBottomLeft = debuffBottomLeft;
+		if ((int) debuffBottomLeftSpinner.getValue() != debuffBottomLeft) {
+			debuffBottomLeftSpinner.setValue(debuffBottomLeft);
+		}
 	}
 
 	public int getDebuffBottomCenter() {
+		setDebuffBottomCenter((int) debuffBottomCenterSpinner.getValue());
 		return debuffBottomCenter;
 	}
 
 	public void setDebuffBottomCenter(int debuffBottomCenter) {
 		this.debuffBottomCenter = debuffBottomCenter;
+		if ((int) debuffBottomCenterSpinner.getValue() != debuffBottomCenter) {
+			debuffBottomCenterSpinner.setValue(debuffBottomCenter);
+		}
 	}
 
 	public int getDebuffBottomRight() {
+		setDebuffBottomRight((int) debuffBottomRightSpinner.getValue());
 		return debuffBottomRight;
 	}
 
 	public void setDebuffBottomRight(int debuffBottomRight) {
 		this.debuffBottomRight = debuffBottomRight;
+		if ((int) debuffBottomRightSpinner.getValue() != debuffBottomRight) {
+			debuffBottomRightSpinner.setValue(debuffBottomRight);
+		}
 	}
 
 }
