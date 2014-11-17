@@ -20,7 +20,6 @@ public class Utility {
 	static {
 		INSTANCE = new Utility();
 	}
-
 	public static Utility getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new Utility();
@@ -60,12 +59,6 @@ public class Utility {
 		}
 	}
 	
-	public void addPlayerCharacter() {
-		String test = new PlayerCharacter().getName();
-		System.out.println(test);
-
-	}
-
 	public static int getPlayerCharacterCounter() {
 		return playerCharacterCounter;
 	}

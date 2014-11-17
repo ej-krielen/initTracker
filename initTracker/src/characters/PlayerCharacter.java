@@ -16,7 +16,7 @@ import controls.Utility;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update November 14th 2014 Latest update of this file
+ * @update November 17th 2014 Latest update of this file
  * @LatestUpdate Adjusted getters and setters for Swing
  * 
  * */
@@ -24,7 +24,7 @@ import controls.Utility;
 @SuppressWarnings("serial")
 public class PlayerCharacter extends JPanel {
 
-	// acces the methods stored in controls.Utility
+	// Access the methods stored in controls.Utility
 	private Utility repository = Utility.getInstance();
 
 	// variables used
@@ -93,6 +93,9 @@ public class PlayerCharacter extends JPanel {
 	SpinnerModel debuffModelBC = new SpinnerNumberModel(0, 0, 9999, 1);
 	SpinnerModel debuffModelBR = new SpinnerNumberModel(0, 0, 9999, 1);
 
+	/**
+	 * Constructor to make a new playerCharacter panel
+	 */
 	public PlayerCharacter() {
 
 		Utility.increasePlayerCharacterCounter();
@@ -165,9 +168,9 @@ public class PlayerCharacter extends JPanel {
 		this.add(debuffBottomRightSpinner);
 		this.add(debuffsLabel);
 
-	}
+	}//end of constructor
 
-	// getters and setters modified!
+	// getters and setters !modified!
 	// getters first check swing component
 	// setters also set the component to new value if not the same as current
 	// value

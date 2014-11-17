@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -16,7 +15,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 
 import characters.PlayerCharacter;
-import controls.Utility;
 
 /**
  * User interface is built here.
@@ -87,8 +85,8 @@ public class AppMain extends JFrame {
 		bottomSeperator.setBounds(0, 130, 1200, 2);
 
 		// make elements draggable
-
-		MouseListener listener = new DragMouseAdapter();
+		//TODO
+		//MouseListener listener = new DragMouseAdapter();
 		//TODO add dynamically added panels
 /*		firstDragButton.addMouseListener(listener);
 		secondDragButton.addMouseListener(listener);
@@ -136,7 +134,8 @@ public class AppMain extends JFrame {
 		}
 	}
 	
-	private Utility repository = Utility.getInstance();
+	// Access the methods stored in controls.Utility
+	//private Utility repository = Utility.getInstance();
 
 	/**
 	 * Behavior of interface elements are defined here
@@ -151,7 +150,6 @@ public class AppMain extends JFrame {
 		// Behavior of addPlayerButton
 		addPlayerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				//repository.addPlayerCharacter();
 				//TODO extract to utility if possible
 				SwingUtilities.invokeLater(new Runnable() {
 
