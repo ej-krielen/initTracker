@@ -59,6 +59,8 @@ public class Utility {
 		}
 	}
 	
+		
+	//getters and setters
 	public static int getPlayerCharacterCounter() {
 		return playerCharacterCounter;
 	}

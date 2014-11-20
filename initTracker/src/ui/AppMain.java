@@ -1,5 +1,6 @@
 package ui;
 
+import static controls.EN_res.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -22,8 +23,8 @@ import characters.PlayerCharacter;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update November 14th 2014 Latest update of this file
- * @LatestUpdate Added adding panels dynamically
+ * @update November 20th 2014 Latest update of this file
+ * @LatestUpdate Added language file
  * 
  */
 
@@ -32,26 +33,23 @@ public class AppMain extends JFrame {
 
 	public static void main(String[] args) {
 		new AppMain();
-
 	}
 
 	// panel where elements can be put in
 	private JPanel panel = new JPanel();
 	// panel elements
-	// TODO add elements
-	JButton loadPresetButton = new JButton("Load a preset");
-	JButton savePresetButton = new JButton("Save as preset");
-	JButton addPlayerButton = new JButton("Add a player");
-	JButton addMonsterButton = new JButton("Add a monster");
+	JButton loadPresetButton = new JButton(LOADPRESET);
+	JButton savePresetButton = new JButton(SAVEPRESET);
+	JButton addPlayerButton = new JButton(ADDPLAYER);
+	JButton addMonsterButton = new JButton(ADDMONSTER);
 
 	JSeparator topSeperator = new JSeparator();
 
-	JButton sortListButton = new JButton("Sort list");
-	JLabel nextRoundLabel = new JLabel(
-			"<html>Increase time of <i>all</i> (de)buffs by 1:</html>");
-	JButton nextRoundButton = new JButton("Next Round");
-	JLabel nextTurnLabel = new JLabel("<html>Next player/monster:</html>");
-	JButton nextTurnButton = new JButton("Next turn");
+	JButton sortListButton = new JButton(SORTLIST);
+	JLabel nextRoundLabel = new JLabel(NEXTROUNDLABEL);
+	JButton nextRoundButton = new JButton(NEXTROUND);
+	JLabel nextTurnLabel = new JLabel(NEXTTURNLABEL);
+	JButton nextTurnButton = new JButton(NEXTTURN);
 
 	JSeparator bottomSeperator = new JSeparator();
 
@@ -61,14 +59,13 @@ public class AppMain extends JFrame {
 	AppMain() {
 		// info about the app
 		// title of the window
-		super("Iniative Tracker");
+		super(WINDOWNAME);
 		// width and height of the panel (inclusive title bar and borders)
 		setSize(1200, 750);
 		setLocation(250, 50);
 		panel.setLayout(null);
 
 		// set pos x, pos y, width and height of each element
-		// TODO setbound of elements
 		loadPresetButton.setBounds(5, 5, 150, 40);
 		savePresetButton.setBounds(200, 5, 150, 40);
 		addPlayerButton.setBounds(400, 5, 150, 40);
@@ -84,18 +81,19 @@ public class AppMain extends JFrame {
 
 		bottomSeperator.setBounds(0, 130, 1200, 2);
 
-		// make elements draggable
-		//TODO
-		//MouseListener listener = new DragMouseAdapter();
-		//TODO add dynamically added panels
-/*		firstDragButton.addMouseListener(listener);
-		secondDragButton.addMouseListener(listener);
-
-		firstDragButton.setTransferHandler(new TransferHandler("text"));
-		secondDragButton.setTransferHandler(new TransferHandler("text"));*/
+		// makes elements draggable
+		// TODO
+		// MouseListener listener = new DragMouseAdapter();
+		// TODO add dynamically added panels
+		/*
+		 * firstDragButton.addMouseListener(listener);
+		 * secondDragButton.addMouseListener(listener);
+		 * 
+		 * firstDragButton.setTransferHandler(new TransferHandler("text"));
+		 * secondDragButton.setTransferHandler(new TransferHandler("text"));
+		 */
 
 		// add elementals to the panel layout
-		// TODO add elements to panel
 
 		panel.add(loadPresetButton);
 		panel.add(savePresetButton);
@@ -117,7 +115,7 @@ public class AppMain extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		interfaceControls();
-		
+
 	}
 
 	/**
@@ -130,27 +128,97 @@ public class AppMain extends JFrame {
 			JComponent c = (JComponent) e.getSource();
 			TransferHandler handler = c.getTransferHandler();
 			handler.exportAsDrag(c, e, TransferHandler.COPY);
-			//TODO make it a swap location drag and drop
+			// TODO make it a swap location drag and drop
 		}
 	}
-	
+
 	// Access the methods stored in controls.Utility
-	//private Utility repository = Utility.getInstance();
+	// private Utility repository = Utility.getInstance();
 
 	/**
 	 * Behavior of interface elements are defined here
 	 */
 	public void interfaceControls() {
 
-		//TODO add more actions
+		/**
+		 * Opens a window to select a previously saved preset
+		 */
+		//Behavior of loadPresetButton
+		loadPresetButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				// TODO method to handle loadPresetButton
+				
+			}
+			
+		});
+		//Behavior of loadPresetButton
 		
+		/**
+		 * Opens a window to input name of preset and maybe a place to store it
+		 */
+		//Behavior of savePresetButton
+		savePresetButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				// TODO method to handle savePresetButton
+				
+			}
+			
+		});
+		//Behavior of savePresetButton
+		
+		/**
+		 * Sort the list of panels by value of their iniative (descending)
+		 */
+		//Behavior of sortListButton
+		sortListButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				// TODO method to handle sortListButton
+				
+			}
+			
+		});
+		//Behavior of sortListButton
+		
+		/**
+		 * Increase all active (non-zero) (de)buff spinners by 1
+		 */
+		//Behavior of nextRoundButton
+		nextRoundButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				// TODO method to handle nextRoundButton
+				
+			}
+			
+		});
+		//Behavior of nextRoundButton
+		
+		
+		/**
+		 * Rearrange panels. Highest becomes lowest. All others move up one place.
+		 */
+		//Behavior of nextTurnButton
+		nextTurnButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				// TODO method to handle nextTurnButton (effects arraylist)
+				
+			}
+			
+		});
+		//Behavior of nextTurnButton
+
 		/**
 		 * When user clicks on button, create a new panel
 		 */
 		// Behavior of addPlayerButton
 		addPlayerButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent ae) {
-				//TODO extract to utility if possible
+				// TODO extract to utility if possible
 				SwingUtilities.invokeLater(new Runnable() {
 
 					@Override
@@ -158,14 +226,13 @@ public class AppMain extends JFrame {
 						JPanel newPanel = new PlayerCharacter();
 						panel.add(newPanel);
 						panel.validate();
-	                    panel.repaint();
-					
+						panel.repaint();
+
 					}
-							
-				
-		});	// Behavior of addPlayerButton
-	}
+
+				}); // Behavior of addPlayerButton
+			}
 		});
+
 	}
 }
-

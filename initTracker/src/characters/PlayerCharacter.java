@@ -1,14 +1,27 @@
 package characters;
 
+import static controls.EN_res.DEBUFFSLABELTEXT;
+import static controls.EN_res.HPLABELTEXT;
+import static controls.EN_res.INITIATIVELABELTEXT;
+import static controls.EN_res.NAMELABELTEXT;
+import static controls.EN_res.NOTESINPUT;
+import static controls.EN_res.PLAYERINPUT;
+import static controls.EN_res.REMOVE;
+
 import java.awt.Color;
+import java.awt.Font;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 
 import controls.Utility;
 
@@ -16,8 +29,9 @@ import controls.Utility;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update November 17th 2014 Latest update of this file
- * @LatestUpdate Adjusted getters and setters for Swing
+ * @update November 20th 2014 Latest update of this file
+ * @LatestUpdate Added language file, changed spinnerModels to include negative,
+ *               added remove button, working on layout
  * 
  * */
 
@@ -58,34 +72,30 @@ public class PlayerCharacter extends JPanel {
 	// variable used to determine the y pos of the instance of this panel
 	private int panel_Y_pos;
 
-	// Strings of the labels
-	private static final String INITIATIVELABELTEXT = "INIT";
-	private static final String NAMELABELTEXT = "Name: ";
-	private static final String HPLABELTEXT = "HP";
-	private static final String DEBUFFSLABELTEXT = "(DE)BUFFS (active duration)";
-
 	// panel elements only labels are initiated because their String value is
 	// final
 	JButton dragButton = new JButton("");
 	JSpinner iniativeSpinner = null;
-	JLabel iniativeLabel = new JLabel(INITIATIVELABELTEXT);
+	JLabel iniativeLabel = new JLabel(INITIATIVELABELTEXT,
+			SwingConstants.CENTER);
 	JLabel nameLabel = new JLabel(NAMELABELTEXT);
 	JTextArea nameArea = null;
 	JTextArea notesArea = null;
 	JSpinner hpSpinner = null;
-	JLabel hpLabel = new JLabel(HPLABELTEXT);
+	JLabel hpLabel = new JLabel(HPLABELTEXT, SwingConstants.CENTER);
 	JSpinner debuffTopLeftSpinner = null;
 	JSpinner debuffTopCenterSpinner = null;
 	JSpinner debuffTopRightSpinner = null;
 	JSpinner debuffBottomLeftSpinner = null;
 	JSpinner debuffBottomCenterSpinner = null;
 	JSpinner debuffBottomRightSpinner = null;
-	JLabel debuffsLabel = new JLabel(DEBUFFSLABELTEXT);
+	JLabel debuffsLabel = new JLabel(DEBUFFSLABELTEXT, SwingConstants.CENTER);
+	JButton removeButton = new JButton(REMOVE);
 
 	// Spinnermodels to determine values (initial value, min, max, step
 	// increase)
-	SpinnerModel iniativeModel = new SpinnerNumberModel(0, 0, 999, 1);
-	SpinnerModel hpModel = new SpinnerNumberModel(6, 0, 9999, 1);
+	SpinnerModel iniativeModel = new SpinnerNumberModel(0, -999, 999, 1);
+	SpinnerModel hpModel = new SpinnerNumberModel(6, -999, 999, 1);
 	SpinnerModel debuffModelTL = new SpinnerNumberModel(0, 0, 9999, 1);
 	SpinnerModel debuffModelTC = new SpinnerNumberModel(0, 0, 9999, 1);
 	SpinnerModel debuffModelTR = new SpinnerNumberModel(0, 0, 9999, 1);
@@ -116,9 +126,9 @@ public class PlayerCharacter extends JPanel {
 
 		// initiate components with values
 		iniativeSpinner = new JSpinner(iniativeModel);
-		nameArea = new JTextArea("Player "
+		nameArea = new JTextArea(PLAYERINPUT
 				+ Utility.getPlayerCharacterCounter());
-		notesArea = new JTextArea("Notes: ");
+		notesArea = new JTextArea(NOTESINPUT);
 		hpSpinner = new JSpinner(hpModel);
 		debuffTopLeftSpinner = new JSpinner(debuffModelTL);
 		debuffTopCenterSpinner = new JSpinner(debuffModelTC);
@@ -129,27 +139,72 @@ public class PlayerCharacter extends JPanel {
 
 		// set pos x, pos y, width and height of each element
 		dragButton.setBounds(5, TOP_Y, 40, 90);
-		iniativeSpinner.setBounds(50, TOP_Y, TEXTAREABOX, TEXTAREABOX);
-		iniativeLabel.setBounds(50, LABEL_Y, 60, LABELHEIGHT);
-		nameLabel.setBounds(115, TOP_Y, 40, LABELHEIGHT);
-		nameArea.setBounds(160, TOP_Y, 200, 30);
-		notesArea.setBounds(160, 40, 350, 55);
-		hpSpinner.setBounds(515, TOP_Y, TEXTAREABOX, TEXTAREABOX);
-		hpLabel.setBounds(515, LABEL_Y, 60, LABELHEIGHT);
-		debuffTopLeftSpinner.setBounds(580, TOP_DEBUFF, DEBUFFWIDTH,
+		iniativeSpinner.setBounds(60, TOP_Y, TEXTAREABOX, TEXTAREABOX);
+		iniativeLabel.setBounds(60, LABEL_Y, 60, LABELHEIGHT);
+		nameLabel.setBounds(135, TOP_Y, 40, LABELHEIGHT);
+		nameArea.setBounds(180, TOP_Y, 200, 30);
+		notesArea.setBounds(180, 40, 350, 55);
+		hpSpinner.setBounds(545, TOP_Y, TEXTAREABOX, TEXTAREABOX);
+		hpLabel.setBounds(545, LABEL_Y, 60, LABELHEIGHT);
+		debuffTopLeftSpinner.setBounds(630, TOP_DEBUFF, DEBUFFWIDTH,
 				DEBUFFHEIGHT);
-		debuffTopCenterSpinner.setBounds(645, TOP_DEBUFF, DEBUFFWIDTH,
+		debuffTopCenterSpinner.setBounds(695, TOP_DEBUFF, DEBUFFWIDTH,
 				DEBUFFHEIGHT);
-		debuffTopRightSpinner.setBounds(710, TOP_DEBUFF, DEBUFFWIDTH,
+		debuffTopRightSpinner.setBounds(770, TOP_DEBUFF, DEBUFFWIDTH,
 				DEBUFFHEIGHT);
-		debuffBottomLeftSpinner.setBounds(580, BOTTOM_DEBUFF, DEBUFFWIDTH,
+		debuffBottomLeftSpinner.setBounds(630, BOTTOM_DEBUFF, DEBUFFWIDTH,
 				DEBUFFHEIGHT);
-		debuffBottomCenterSpinner.setBounds(645, BOTTOM_DEBUFF, DEBUFFWIDTH,
+		debuffBottomCenterSpinner.setBounds(695, BOTTOM_DEBUFF, DEBUFFWIDTH,
 				DEBUFFHEIGHT);
-		debuffBottomRightSpinner.setBounds(710, BOTTOM_DEBUFF, DEBUFFWIDTH,
+		debuffBottomRightSpinner.setBounds(770, BOTTOM_DEBUFF, DEBUFFWIDTH,
 				DEBUFFHEIGHT);
-		debuffsLabel.setBounds(580, LABEL_Y, ((DEBUFFWIDTH * 3) + 5),
+		debuffsLabel.setBounds(630, LABEL_Y, ((DEBUFFWIDTH * 3) + 5),
 				LABELHEIGHT);
+		removeButton.setBounds((PANELWIDTH - 175), 25, 150, 50);
+
+		// edit spinners
+		JFormattedTextField ftf = null;
+		ftf = getSpinnerTextField(iniativeSpinner);
+		if (ftf != null) {
+			ftf.setHorizontalAlignment(JTextField.CENTER);
+			ftf.setFont(new Font("Verdana", Font.BOLD, 20));
+		}
+		ftf = getSpinnerTextField(hpSpinner);
+		if (ftf != null) {
+			ftf.setHorizontalAlignment(JTextField.CENTER);
+			ftf.setFont(new Font("Verdana", Font.BOLD, 20));
+			ftf.setForeground(Color.RED);
+		}
+		ftf = getSpinnerTextField(debuffTopLeftSpinner);
+		if (ftf != null) {
+			ftf.setHorizontalAlignment(JTextField.CENTER);
+		}
+		ftf = getSpinnerTextField(debuffTopCenterSpinner);
+		if (ftf != null) {
+			ftf.setHorizontalAlignment(JTextField.CENTER);
+			ftf.setBackground(Color.CYAN);
+		}
+		ftf = getSpinnerTextField(debuffTopRightSpinner);
+		if (ftf != null) {
+			ftf.setHorizontalAlignment(JTextField.CENTER);
+			ftf.setBackground(Color.BLACK);
+			ftf.setForeground(Color.WHITE);
+		}
+		ftf = getSpinnerTextField(debuffBottomLeftSpinner);
+		if (ftf != null) {
+			ftf.setHorizontalAlignment(JTextField.CENTER);
+			ftf.setBackground(Color.ORANGE);
+		}
+		ftf = getSpinnerTextField(debuffBottomCenterSpinner);
+		if (ftf != null) {
+			ftf.setHorizontalAlignment(JTextField.CENTER);
+			ftf.setBackground(Color.MAGENTA);
+		}
+		ftf = getSpinnerTextField(debuffBottomRightSpinner);
+		if (ftf != null) {
+			ftf.setHorizontalAlignment(JTextField.CENTER);
+			ftf.setBackground(Color.RED);
+		}
 
 		// add elementals to the instance panel
 		this.add(dragButton);
@@ -167,8 +222,30 @@ public class PlayerCharacter extends JPanel {
 		this.add(debuffBottomCenterSpinner);
 		this.add(debuffBottomRightSpinner);
 		this.add(debuffsLabel);
+		this.add(removeButton);
 
-	}//end of constructor
+	}// end of constructor
+
+	/**
+	 * Gets the textField (through the editor (from JComponent)) and centers the
+	 * text in the spinner. Also sets the color depending on which spinner was
+	 * entered.
+	 * 
+	 * @param spinner
+	 *            The JSpinner to alter
+	 * @return The TextField of the JSpinner
+	 */
+	private JFormattedTextField getSpinnerTextField(JSpinner spinner) {
+		JComponent editor = spinner.getEditor();
+		if (editor instanceof JSpinner.DefaultEditor) {
+			return ((JSpinner.DefaultEditor) editor).getTextField();
+		} else {
+			System.err.println("Unexpected editor type: "
+					+ spinner.getEditor().getClass()
+					+ " isn't a descendant of DefaultEditor");
+			return null;
+		}
+	}
 
 	// getters and setters !modified!
 	// getters first check swing component
