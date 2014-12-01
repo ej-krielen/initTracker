@@ -9,8 +9,8 @@ import characters.PlayerCharacter;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update November 14th 2014 Latest update of this file
- * @LatestUpdate Added playerCharacterCounter and methods based on it
+ * @update December 1st 2014 Latest update of this file
+ * @LatestUpdate Changed getPanelYPos to also be usable for sortList
  * 
  */
 
@@ -52,10 +52,10 @@ public class Utility {
 	 * @return Y position of the new instance
 	 */
 	public int getPanelYpos(int tmpCounter) {
-		if (tmpCounter == 1) {
+		if (tmpCounter == 0) {
 			return 150;
 		} else {
-			return (150 + (100 * (tmpCounter - 1)));
+			return (150 + (100 * (tmpCounter)));
 		}
 	}
 	

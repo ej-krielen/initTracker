@@ -30,12 +30,12 @@ import utility.Utility;
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
  * @update December 1st 2014 Latest update of this file
- * @LatestUpdate Added method increaseDebuffs
+ * @LatestUpdate Added method increaseDebuffs, and methods for sortList
  * 
  * */
 
 @SuppressWarnings("serial")
-public class PlayerCharacter extends JPanel {
+public class PlayerCharacter extends JPanel implements Comparable<PlayerCharacter> {
 
 	// Access the methods stored in controls.Utility
 	private Utility repository = Utility.getInstance();
@@ -43,9 +43,9 @@ public class PlayerCharacter extends JPanel {
 	// variables used
 
 	// variables of the instance of the panel
-	private static final int PANEL_X = 5;
-	private static final int PANELWIDTH = 1150;
-	private static final int PANELHEIGHT = 100;
+	public static final int PANEL_X = 5;
+	public static final int PANELWIDTH = 1150;
+	public static final int PANELHEIGHT = 100;
 
 	// variables used to position elements inside the panel
 	private static final int TOP_Y = 5;
@@ -108,8 +108,8 @@ public class PlayerCharacter extends JPanel {
 	public PlayerCharacter() {
 
 		Utility.increasePlayerCharacterCounter();
-		panel_Y_pos = repository.getPanelYpos(Utility
-				.getPlayerCharacterCounter());
+		panel_Y_pos = repository.getPanelYpos((Utility
+				.getPlayerCharacterCounter()-1));
 
 		// Alternates background color of the created instances between gray and
 		// light gray
@@ -269,7 +269,34 @@ public class PlayerCharacter extends JPanel {
 			setDebuffBottomRight((getDebuffBottomRight()) + 1);
 		}
 	}
-
+	
+	/**
+	 * Used to sort the arrList from {@link AppMain} from highest to lowest
+	 */
+	@Override
+	public int compareTo(PlayerCharacter pc) {
+		// TODO Auto-generated method stub
+		Integer i1 = this.getIniative();
+		Integer i2 = pc.getIniative();
+		return i2.compareTo(i1);
+		
+	}
+	
+	/**
+	 * Gets the new Y position based on the position in the arrayList, also sets the background color.
+	 * @param listNumber position in arrayList
+	 * @return new Y position for the panel
+	 */
+	public int newPosition(int listNumber){
+		if (listNumber % 2 <= 0) {
+			setBackground(Color.GRAY);
+		} else {
+			setBackground(Color.LIGHT_GRAY);
+		}
+		return repository.getPanelYpos(listNumber);
+		
+	}
+	
 	// getters and setters !modified!
 	// getters first check swing component
 	// setters also set the component to new value if not the same as current
@@ -393,5 +420,6 @@ public class PlayerCharacter extends JPanel {
 			debuffBottomRightSpinner.setValue(debuffBottomRight);
 		}
 	}
+
 
 }

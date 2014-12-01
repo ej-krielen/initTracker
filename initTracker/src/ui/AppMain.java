@@ -10,12 +10,16 @@ import static utility.EN_res.NEXTTURNLABEL;
 import static utility.EN_res.SAVEPRESET;
 import static utility.EN_res.SORTLIST;
 import static utility.EN_res.WINDOWNAME;
+import static characters.PlayerCharacter.PANEL_X;
+import static characters.PlayerCharacter.PANELWIDTH;
+import static characters.PlayerCharacter.PANELHEIGHT;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -35,7 +39,7 @@ import characters.PlayerCharacter;
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
  * @update December 1st 2014 Latest update of this file
- * @LatestUpdate Added methods of nextRound button
+ * @LatestUpdate Added methods of nextRound and sortList button
  * 
  */
 
@@ -97,7 +101,7 @@ public class AppMain extends JFrame {
 		// makes elements draggable
 		// TODO
 		// MouseListener listener = new DragMouseAdapter();
-		// TODO add dynamically added panels
+		// TODO add dynamically added panels to list of dragable objects
 		/*
 		 * firstDragButton.addMouseListener(listener);
 		 * secondDragButton.addMouseListener(listener);
@@ -188,8 +192,10 @@ public class AppMain extends JFrame {
 		sortListButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				// TODO method to handle sortListButton
-				
+				Collections.sort(arrList);
+				for (PlayerCharacter pc : arrList){
+					pc.setBounds(PANEL_X, pc.newPosition(arrList.indexOf(pc)), PANELWIDTH, PANELHEIGHT);
+				}
 			}
 			
 		});
@@ -220,8 +226,6 @@ public class AppMain extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				// TODO method to handle nextTurnButton (effects arraylist)
-				
-				
 			}
 			
 		});
