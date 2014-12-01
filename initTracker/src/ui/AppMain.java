@@ -39,7 +39,7 @@ import characters.PlayerCharacter;
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
  * @update December 1st 2014 Latest update of this file
- * @LatestUpdate Added methods of nextRound and sortList button
+ * @LatestUpdate Added methods of nextRound and sortList and nextTurn button
  * 
  */
 
@@ -224,8 +224,11 @@ public class AppMain extends JFrame {
 		//Behavior of nextTurnButton
 		nextTurnButton.addActionListener(new ActionListener(){
 			@Override
-			public void actionPerformed(ActionEvent ae) {
-				// TODO method to handle nextTurnButton (effects arraylist)
+			public void actionPerformed(ActionEvent ae) {	
+				Collections.rotate(arrList.subList(0, arrList.size()), -1);
+				for (PlayerCharacter pc : arrList){
+					pc.setBounds(PANEL_X, pc.newPosition(arrList.indexOf(pc)), PANELWIDTH, PANELHEIGHT);
+				}
 			}
 			
 		});

@@ -275,7 +275,6 @@ public class PlayerCharacter extends JPanel implements Comparable<PlayerCharacte
 	 */
 	@Override
 	public int compareTo(PlayerCharacter pc) {
-		// TODO Auto-generated method stub
 		Integer i1 = this.getIniative();
 		Integer i2 = pc.getIniative();
 		return i2.compareTo(i1);
