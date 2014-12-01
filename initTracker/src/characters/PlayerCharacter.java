@@ -29,9 +29,8 @@ import utility.Utility;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update November 20th 2014 Latest update of this file
- * @LatestUpdate Added language file, changed spinnerModels to include negative,
- *               added remove button, working on layout
+ * @update December 1st 2014 Latest update of this file
+ * @LatestUpdate Added method increaseDebuffs
  * 
  * */
 
@@ -244,6 +243,30 @@ public class PlayerCharacter extends JPanel {
 					+ spinner.getEditor().getClass()
 					+ " isn't a descendant of DefaultEditor");
 			return null;
+		}
+	}
+
+	/**
+	 * Increases all Debuffs that do not have a value of 0
+	 */
+	public void increaseDebuffs() {
+		if (getDebuffTopLeft() != 0) {
+			setDebuffTopLeft((getDebuffTopLeft()) + 1);
+		}
+		if (getDebuffTopCenter() != 0) {
+			setDebuffTopCenter((getDebuffTopCenter()) + 1);
+		}
+		if (getDebuffTopRight() != 0) {
+			setDebuffTopRight((getDebuffTopRight()) + 1);
+		}
+		if (getDebuffBottomLeft() != 0) {
+			setDebuffBottomLeft((getDebuffBottomLeft()) + 1);
+		}
+		if (getDebuffBottomCenter() != 0) {
+			setDebuffBottomCenter((getDebuffBottomCenter()) + 1);
+		}
+		if (getDebuffBottomRight() != 0) {
+			setDebuffBottomRight((getDebuffBottomRight()) + 1);
 		}
 	}
 

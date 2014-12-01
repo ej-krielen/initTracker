@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -33,8 +34,8 @@ import characters.PlayerCharacter;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update November 20th 2014 Latest update of this file
- * @LatestUpdate Added language file
+ * @update December 1st 2014 Latest update of this file
+ * @LatestUpdate Added methods of nextRound button
  * 
  */
 
@@ -44,6 +45,8 @@ public class AppMain extends JFrame {
 	public static void main(String[] args) {
 		new AppMain();
 	}
+	
+	private ArrayList<PlayerCharacter> arrList = new ArrayList<>();
 
 	// panel where elements can be put in
 	private JPanel panel = new JPanel();
@@ -199,7 +202,9 @@ public class AppMain extends JFrame {
 		nextRoundButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				// TODO method to handle nextRoundButton
+				for (PlayerCharacter pc : arrList){
+					pc.increaseDebuffs();
+				}
 				
 			}
 			
@@ -215,6 +220,7 @@ public class AppMain extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				// TODO method to handle nextTurnButton (effects arraylist)
+				
 				
 			}
 			
@@ -233,8 +239,9 @@ public class AppMain extends JFrame {
 
 					@Override
 					public void run() {
-						JPanel newPanel = new PlayerCharacter();
-						panel.add(newPanel);
+						PlayerCharacter newPlayerCharacter = new PlayerCharacter();
+						arrList.add(newPlayerCharacter);
+						panel.add(newPlayerCharacter);
 						panel.validate();
 						panel.repaint();
 
