@@ -1,8 +1,5 @@
 package ui;
 
-import static units.PlayerCharacter.PANELHEIGHT;
-import static units.PlayerCharacter.PANELWIDTH;
-import static units.PlayerCharacter.PANEL_X;
 import static utility.EN_res.ADDMONSTER;
 import static utility.EN_res.ADDPLAYER;
 import static utility.EN_res.LOADPRESET;
@@ -10,6 +7,7 @@ import static utility.EN_res.NEXTROUND;
 import static utility.EN_res.NEXTROUNDLABEL;
 import static utility.EN_res.NEXTTURN;
 import static utility.EN_res.NEXTTURNLABEL;
+import static utility.EN_res.NOACTIVEDEBUFFS;
 import static utility.EN_res.SAVEPRESET;
 import static utility.EN_res.SORTLIST;
 import static utility.EN_res.WINDOWNAME;
@@ -32,6 +30,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 
 import units.PlayerCharacter;
+import utility.Utility;
 
 /**
  * User interface is built here.
@@ -40,7 +39,8 @@ import units.PlayerCharacter;
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
  * @update December 1st 2014 Latest update of this file
- * @LatestUpdate Added methods of nextRound (with warning if no changes occured) and sortList and nextTurn button
+ * @LatestUpdate Added methods of nextRound (with warning if no changes occured)
+ *               and sortList and nextTurn button
  * 
  */
 
@@ -50,8 +50,8 @@ public class AppMain extends JFrame {
 	public static void main(String[] args) {
 		new AppMain();
 	}
-	
-	private ArrayList<PlayerCharacter> arrList = new ArrayList<>();
+
+	public static ArrayList<PlayerCharacter> arrList = new ArrayList<>();
 
 	// panel where elements can be put in
 	private JPanel panel = new JPanel();
@@ -151,7 +151,7 @@ public class AppMain extends JFrame {
 	}
 
 	// Access the methods stored in controls.Utility
-	// private Utility repository = Utility.getInstance();
+	private Utility repository = Utility.getInstance();
 
 	/**
 	 * Behavior of interface elements are defined here
@@ -161,85 +161,75 @@ public class AppMain extends JFrame {
 		/**
 		 * Opens a window to select a previously saved preset
 		 */
-		//Behavior of loadPresetButton
-		loadPresetButton.addActionListener(new ActionListener(){
+		// Behavior of loadPresetButton
+		loadPresetButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				// TODO method to handle loadPresetButton
-				
+
 			}
-			
+
 		});
-		//Behavior of loadPresetButton
-		
+		// Behavior of loadPresetButton
+
 		/**
 		 * Opens a window to input name of preset and maybe a place to store it
 		 */
-		//Behavior of savePresetButton
-		savePresetButton.addActionListener(new ActionListener(){
+		// Behavior of savePresetButton
+		savePresetButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				// TODO method to handle savePresetButton
-				
+
 			}
-			
+
 		});
-		//Behavior of savePresetButton
-		
+		// Behavior of savePresetButton
+
 		/**
 		 * Sort the list of panels by value of their iniative (descending)
 		 */
-		//Behavior of sortListButton
-		sortListButton.addActionListener(new ActionListener(){
+		// Behavior of sortListButton
+		sortListButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				Collections.sort(arrList);
-				for (PlayerCharacter pc : arrList){
-					pc.setBounds(PANEL_X, pc.newPosition(arrList.indexOf(pc)), PANELWIDTH, PANELHEIGHT);
-				}
+				repository.repositionPanels();
 			}
-			
+
 		});
-		//Behavior of sortListButton
-		
+		// Behavior of sortListButton
+
 		/**
-		 * Increase all active (non-zero) (de)buff spinners by 1
-		 * If none were changed gives a warning
+		 * Increase all active (non-zero) (de)buff spinners by 1 If none were
+		 * changed gives a warning
 		 */
-		//Behavior of nextRoundButton
-		nextRoundButton.addActionListener(new ActionListener(){
+		// Behavior of nextRoundButton
+		nextRoundButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				boolean b = false;
-				for (PlayerCharacter pc : arrList){
-					if (pc.increaseDebuffs()){
-						b = true;
-					}
-				}
-				if (!b){
-					JOptionPane.showMessageDialog(rootPane, "No active (de)buffs found");
+				if (!repository.nextRound()) {
+					JOptionPane.showMessageDialog(rootPane, NOACTIVEDEBUFFS);
 				}
 			}
-			
+
 		});
-		//Behavior of nextRoundButton
-		
-		
+		// Behavior of nextRoundButton
+
 		/**
-		 * Rearrange panels. Highest becomes lowest. All others move up one place.
+		 * Rearrange panels. Highest becomes lowest. All others move up one
+		 * place.
 		 */
-		//Behavior of nextTurnButton
-		nextTurnButton.addActionListener(new ActionListener(){
+		// Behavior of nextTurnButton
+		nextTurnButton.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent ae) {	
+			public void actionPerformed(ActionEvent ae) {
 				Collections.rotate(arrList.subList(0, arrList.size()), -1);
-				for (PlayerCharacter pc : arrList){
-					pc.setBounds(PANEL_X, pc.newPosition(arrList.indexOf(pc)), PANELWIDTH, PANELHEIGHT);
-				}
+				repository.repositionPanels();
 			}
-			
+
 		});
-		//Behavior of nextTurnButton
+		// Behavior of nextTurnButton
 
 		/**
 		 * When user clicks on button, create a new panel
@@ -258,7 +248,7 @@ public class AppMain extends JFrame {
 						panel.add(newPlayerCharacter);
 						panel.validate();
 						panel.repaint();
-
+						
 					}
 
 				}); // Behavior of addPlayerButton

@@ -15,10 +15,10 @@ package utility;
 public final class EN_res {
 
 	// AppMain
-	//Window name
+	// Window name
 	public static final String WINDOWNAME = "Iniative Tracker";
 
-	//Buttons and labels
+	// Buttons and labels
 	public static final String LOADPRESET = "Load a preset";
 	public static final String SAVEPRESET = "Save as preset";
 	public static final String ADDPLAYER = "Add a player";
@@ -29,6 +29,8 @@ public final class EN_res {
 	public static final String NEXTTURNLABEL = "<html>Next player/monster:</html>";
 	public static final String NEXTTURN = "Next turn";
 
+	public static final String NOACTIVEDEBUFFS = "No active (de)buffs found";
+
 	// PlayerCharacter
 	// Strings of the labels
 	public static final String INITIATIVELABELTEXT = "INIT";
@@ -36,10 +38,10 @@ public final class EN_res {
 	public static final String HPLABELTEXT = "HP";
 	public static final String DEBUFFSLABELTEXT = "(DE)BUFFS (active duration)";
 
-	//String of input fields
+	// String of input fields
 	public static final String PLAYERINPUT = "Player ";
 	public static final String NOTESINPUT = "Notes: ";
-	
-	//String of buttons
+
+	// String of buttons
 	public static final String REMOVE = "Remove";
 }

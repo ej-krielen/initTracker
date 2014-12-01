@@ -12,7 +12,6 @@ import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,6 +22,7 @@ import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
+import ui.AppMain;
 import utility.Utility;
 
 /**
@@ -35,7 +35,8 @@ import utility.Utility;
  * */
 
 @SuppressWarnings("serial")
-public class PlayerCharacter extends JPanel implements Comparable<PlayerCharacter> {
+public class PlayerCharacter extends JPanel implements
+		Comparable<PlayerCharacter> {
 
 	// Access the methods stored in controls.Utility
 	private Utility repository = Utility.getInstance();
@@ -109,11 +110,11 @@ public class PlayerCharacter extends JPanel implements Comparable<PlayerCharacte
 
 		Utility.increasePlayerCharacterCounter();
 		panel_Y_pos = repository.getPanelYpos((Utility
-				.getPlayerCharacterCounter()-1));
+				.getPlayerCharacterCounter() - 1));
 
 		// Alternates background color of the created instances between gray and
 		// light gray
-		if (Utility.getPlayerCharacterCounter() % 2 <= 0) {
+		if ((Utility.getPlayerCharacterCounter() - 1) % 2 <= 0) {
 			setBackground(Color.GRAY);
 		} else {
 			setBackground(Color.LIGHT_GRAY);
@@ -163,43 +164,43 @@ public class PlayerCharacter extends JPanel implements Comparable<PlayerCharacte
 
 		// edit spinners
 		JFormattedTextField ftf = null;
-		ftf = getSpinnerTextField(iniativeSpinner);
+		ftf = repository.getSpinnerTextField(iniativeSpinner);
 		if (ftf != null) {
 			ftf.setHorizontalAlignment(JTextField.CENTER);
 			ftf.setFont(new Font("Verdana", Font.BOLD, 20));
 		}
-		ftf = getSpinnerTextField(hpSpinner);
+		ftf = repository.getSpinnerTextField(hpSpinner);
 		if (ftf != null) {
 			ftf.setHorizontalAlignment(JTextField.CENTER);
 			ftf.setFont(new Font("Verdana", Font.BOLD, 20));
 			ftf.setForeground(Color.RED);
 		}
-		ftf = getSpinnerTextField(debuffTopLeftSpinner);
+		ftf = repository.getSpinnerTextField(debuffTopLeftSpinner);
 		if (ftf != null) {
 			ftf.setHorizontalAlignment(JTextField.CENTER);
 		}
-		ftf = getSpinnerTextField(debuffTopCenterSpinner);
+		ftf = repository.getSpinnerTextField(debuffTopCenterSpinner);
 		if (ftf != null) {
 			ftf.setHorizontalAlignment(JTextField.CENTER);
 			ftf.setBackground(Color.CYAN);
 		}
-		ftf = getSpinnerTextField(debuffTopRightSpinner);
+		ftf = repository.getSpinnerTextField(debuffTopRightSpinner);
 		if (ftf != null) {
 			ftf.setHorizontalAlignment(JTextField.CENTER);
 			ftf.setBackground(Color.BLACK);
 			ftf.setForeground(Color.WHITE);
 		}
-		ftf = getSpinnerTextField(debuffBottomLeftSpinner);
+		ftf = repository.getSpinnerTextField(debuffBottomLeftSpinner);
 		if (ftf != null) {
 			ftf.setHorizontalAlignment(JTextField.CENTER);
 			ftf.setBackground(Color.ORANGE);
 		}
-		ftf = getSpinnerTextField(debuffBottomCenterSpinner);
+		ftf = repository.getSpinnerTextField(debuffBottomCenterSpinner);
 		if (ftf != null) {
 			ftf.setHorizontalAlignment(JTextField.CENTER);
 			ftf.setBackground(Color.MAGENTA);
 		}
-		ftf = getSpinnerTextField(debuffBottomRightSpinner);
+		ftf = repository.getSpinnerTextField(debuffBottomRightSpinner);
 		if (ftf != null) {
 			ftf.setHorizontalAlignment(JTextField.CENTER);
 			ftf.setBackground(Color.RED);
@@ -225,29 +226,11 @@ public class PlayerCharacter extends JPanel implements Comparable<PlayerCharacte
 
 	}// end of constructor
 
-	/**
-	 * Gets the textField (through the editor (from JComponent)) and centers the
-	 * text in the spinner. Also sets the color depending on which spinner was
-	 * entered.
-	 * 
-	 * @param spinner
-	 *            The JSpinner to alter
-	 * @return The TextField of the JSpinner
-	 */
-	private JFormattedTextField getSpinnerTextField(JSpinner spinner) {
-		JComponent editor = spinner.getEditor();
-		if (editor instanceof JSpinner.DefaultEditor) {
-			return ((JSpinner.DefaultEditor) editor).getTextField();
-		} else {
-			System.err.println("Unexpected editor type: "
-					+ spinner.getEditor().getClass()
-					+ " isn't a descendant of DefaultEditor");
-			return null;
-		}
-	}
+	
 
 	/**
 	 * Increases all Debuffs that do not have a value of 0
+	 * 
 	 * @return Returns true if anything was changed
 	 */
 	public boolean increaseDebuffs() {
@@ -278,7 +261,7 @@ public class PlayerCharacter extends JPanel implements Comparable<PlayerCharacte
 		}
 		return b;
 	}
-	
+
 	/**
 	 * Used to sort the arrList from {@link AppMain} from highest to lowest
 	 */
@@ -287,24 +270,9 @@ public class PlayerCharacter extends JPanel implements Comparable<PlayerCharacte
 		Integer i1 = this.getIniative();
 		Integer i2 = pc.getIniative();
 		return i2.compareTo(i1);
-		
+
 	}
-	
-	/**
-	 * Gets the new Y position based on the position in the arrayList, also sets the background color.
-	 * @param listNumber position in arrayList
-	 * @return new Y position for the panel
-	 */
-	public int newPosition(int listNumber){
-		if (listNumber % 2 <= 0) {
-			setBackground(Color.GRAY);
-		} else {
-			setBackground(Color.LIGHT_GRAY);
-		}
-		return repository.getPanelYpos(listNumber);
-		
-	}
-	
+
 	// getters and setters !modified!
 	// getters first check swing component
 	// setters also set the component to new value if not the same as current
@@ -428,6 +396,5 @@ public class PlayerCharacter extends JPanel implements Comparable<PlayerCharacte
 			debuffBottomRightSpinner.setValue(debuffBottomRight);
 		}
 	}
-
 
 }
