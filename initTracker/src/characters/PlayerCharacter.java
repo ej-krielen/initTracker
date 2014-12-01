@@ -1,12 +1,12 @@
 package characters;
 
-import static controls.EN_res.DEBUFFSLABELTEXT;
-import static controls.EN_res.HPLABELTEXT;
-import static controls.EN_res.INITIATIVELABELTEXT;
-import static controls.EN_res.NAMELABELTEXT;
-import static controls.EN_res.NOTESINPUT;
-import static controls.EN_res.PLAYERINPUT;
-import static controls.EN_res.REMOVE;
+import static utility.EN_res.DEBUFFSLABELTEXT;
+import static utility.EN_res.HPLABELTEXT;
+import static utility.EN_res.INITIATIVELABELTEXT;
+import static utility.EN_res.NAMELABELTEXT;
+import static utility.EN_res.NOTESINPUT;
+import static utility.EN_res.PLAYERINPUT;
+import static utility.EN_res.REMOVE;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -23,7 +23,7 @@ import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
-import controls.Utility;
+import utility.Utility;
 
 /**
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net

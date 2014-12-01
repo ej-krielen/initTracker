@@ -1,4 +1,4 @@
-package controls;
+package utility;
 
 /**
  * All constant that have English text in them that is displayed to the user are

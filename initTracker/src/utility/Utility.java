@@ -1,4 +1,4 @@
-package controls;
+package utility;
 
 import characters.PlayerCharacter;
 

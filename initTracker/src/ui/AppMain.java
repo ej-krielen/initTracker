@@ -1,6 +1,16 @@
 package ui;
 
-import static controls.EN_res.*;
+import static utility.EN_res.ADDMONSTER;
+import static utility.EN_res.ADDPLAYER;
+import static utility.EN_res.LOADPRESET;
+import static utility.EN_res.NEXTROUND;
+import static utility.EN_res.NEXTROUNDLABEL;
+import static utility.EN_res.NEXTTURN;
+import static utility.EN_res.NEXTTURNLABEL;
+import static utility.EN_res.SAVEPRESET;
+import static utility.EN_res.SORTLIST;
+import static utility.EN_res.WINDOWNAME;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
