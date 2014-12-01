@@ -1,6 +1,6 @@
 package utility;
 
-import characters.PlayerCharacter;
+import units.PlayerCharacter;
 
 /**
  * 

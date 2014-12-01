@@ -1,4 +1,4 @@
-package characters;
+package units;
 
 import static utility.EN_res.DEBUFFSLABELTEXT;
 import static utility.EN_res.HPLABELTEXT;
@@ -248,26 +248,35 @@ public class PlayerCharacter extends JPanel implements Comparable<PlayerCharacte
 
 	/**
 	 * Increases all Debuffs that do not have a value of 0
+	 * @return Returns true if anything was changed
 	 */
-	public void increaseDebuffs() {
+	public boolean increaseDebuffs() {
+		boolean b = false;
 		if (getDebuffTopLeft() != 0) {
 			setDebuffTopLeft((getDebuffTopLeft()) + 1);
+			b = true;
 		}
 		if (getDebuffTopCenter() != 0) {
 			setDebuffTopCenter((getDebuffTopCenter()) + 1);
+			b = true;
 		}
 		if (getDebuffTopRight() != 0) {
 			setDebuffTopRight((getDebuffTopRight()) + 1);
+			b = true;
 		}
 		if (getDebuffBottomLeft() != 0) {
 			setDebuffBottomLeft((getDebuffBottomLeft()) + 1);
+			b = true;
 		}
 		if (getDebuffBottomCenter() != 0) {
 			setDebuffBottomCenter((getDebuffBottomCenter()) + 1);
+			b = true;
 		}
 		if (getDebuffBottomRight() != 0) {
 			setDebuffBottomRight((getDebuffBottomRight()) + 1);
+			b = true;
 		}
+		return b;
 	}
 	
 	/**

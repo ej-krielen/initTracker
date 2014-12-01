@@ -1,5 +1,8 @@
 package ui;
 
+import static units.PlayerCharacter.PANELHEIGHT;
+import static units.PlayerCharacter.PANELWIDTH;
+import static units.PlayerCharacter.PANEL_X;
 import static utility.EN_res.ADDMONSTER;
 import static utility.EN_res.ADDPLAYER;
 import static utility.EN_res.LOADPRESET;
@@ -10,9 +13,6 @@ import static utility.EN_res.NEXTTURNLABEL;
 import static utility.EN_res.SAVEPRESET;
 import static utility.EN_res.SORTLIST;
 import static utility.EN_res.WINDOWNAME;
-import static characters.PlayerCharacter.PANEL_X;
-import static characters.PlayerCharacter.PANELWIDTH;
-import static characters.PlayerCharacter.PANELHEIGHT;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,12 +25,13 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 
-import characters.PlayerCharacter;
+import units.PlayerCharacter;
 
 /**
  * User interface is built here.
@@ -39,7 +40,7 @@ import characters.PlayerCharacter;
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
  * @update December 1st 2014 Latest update of this file
- * @LatestUpdate Added methods of nextRound and sortList and nextTurn button
+ * @LatestUpdate Added methods of nextRound (with warning if no changes occured) and sortList and nextTurn button
  * 
  */
 
@@ -203,15 +204,21 @@ public class AppMain extends JFrame {
 		
 		/**
 		 * Increase all active (non-zero) (de)buff spinners by 1
+		 * If none were changed gives a warning
 		 */
 		//Behavior of nextRoundButton
 		nextRoundButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				boolean b = false;
 				for (PlayerCharacter pc : arrList){
-					pc.increaseDebuffs();
+					if (pc.increaseDebuffs()){
+						b = true;
+					}
 				}
-				
+				if (!b){
+					JOptionPane.showMessageDialog(rootPane, "No active (de)buffs found");
+				}
 			}
 			
 		});
