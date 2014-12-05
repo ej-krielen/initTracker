@@ -19,8 +19,8 @@ import units.PlayerCharacter;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update December 1st 2014 Latest update of this file
- * @LatestUpdate Changed getPanelYPos to also be usable for sortList
+ * @update December 3rd 2014 Latest update of this file
+ * @LatestUpdate Altered nextRound method
  * 
  */
 
@@ -40,8 +40,9 @@ public class Utility {
 
 	/**
 	 * Counter used to give each {@link PlayerCharacter} an unique ID
+	 * Starts at -1 so first added will be 0 which lines up with the ArrayList
 	 */
-	private static int playerCharacterCounter;
+	private static int playerCharacterCounter = -1;
 
 	/**
 	 * Increases the playerCharacterCounter by 1 when a new panel is created
@@ -76,18 +77,15 @@ public class Utility {
 	}
 	
 	/**
-	 * Goes through the arrList from AppMain. Runs method increaseDebuffs on all
-	 * panels. If something was changed sets boolean to true.
+	 * Runs updateDebuff on the PlayerCharacter. If a value reaches 0 in that method it will return as true.
 	 * 
-	 * @return True if a change was made, false if no changes were made.
+	 * @return Returns true or false, true if a value was changed to 0 and a message needs to be displayed
 	 */
-	public boolean nextRound() {
+	public boolean nextRound(PlayerCharacter pc) {
 		boolean b = false;
-		for (PlayerCharacter pc : ui.AppMain.arrList) {
-			if (pc.increaseDebuffs()) {
+			if (pc.updateDebuffs()) {
 				b = true;
 			}
-		}
 		return b;
 	}
 	

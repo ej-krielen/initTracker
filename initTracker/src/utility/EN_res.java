@@ -7,8 +7,8 @@ package utility;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 20th 2014 Creation of this file
- * @update November 20th 2014 Latest update of this file
- * @LatestUpdate Added values from AppMain and PlayerCharacter
+ * @update December 3rd 2014 Latest update of this file
+ * @LatestUpdate Removed NextRound, label, and nextturn label added debuffexpired
  * 
  */
 
@@ -24,19 +24,17 @@ public final class EN_res {
 	public static final String ADDPLAYER = "Add a player";
 	public static final String ADDMONSTER = "Add a monster";
 	public static final String SORTLIST = "Sort list";
-	public static final String NEXTROUNDLABEL = "<html>Increase time of <i>all active</i> (de)buffs by 1:</html>";
-	public static final String NEXTROUND = "Next Round";
-	public static final String NEXTTURNLABEL = "<html>Next player/monster:</html>";
 	public static final String NEXTTURN = "Next turn";
-
-	public static final String NOACTIVEDEBUFFS = "No active (de)buffs found";
 
 	// PlayerCharacter
 	// Strings of the labels
 	public static final String INITIATIVELABELTEXT = "INIT";
 	public static final String NAMELABELTEXT = "Name: ";
 	public static final String HPLABELTEXT = "HP";
-	public static final String DEBUFFSLABELTEXT = "(DE)BUFFS (active duration)";
+	public static final String DEBUFFSLABELTEXT = "(DE)BUFFS";
+	
+	public static final String DEBUFFEXPIRED = "One or more debuffs expired";
+	
 
 	// String of input fields
 	public static final String PLAYERINPUT = "Player ";

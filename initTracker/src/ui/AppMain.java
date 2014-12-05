@@ -2,12 +2,9 @@ package ui;
 
 import static utility.EN_res.ADDMONSTER;
 import static utility.EN_res.ADDPLAYER;
+import static utility.EN_res.DEBUFFEXPIRED;
 import static utility.EN_res.LOADPRESET;
-import static utility.EN_res.NEXTROUND;
-import static utility.EN_res.NEXTROUNDLABEL;
 import static utility.EN_res.NEXTTURN;
-import static utility.EN_res.NEXTTURNLABEL;
-import static utility.EN_res.NOACTIVEDEBUFFS;
 import static utility.EN_res.SAVEPRESET;
 import static utility.EN_res.SORTLIST;
 import static utility.EN_res.WINDOWNAME;
@@ -22,7 +19,6 @@ import java.util.Collections;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -38,9 +34,8 @@ import utility.Utility;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update December 1st 2014 Latest update of this file
- * @LatestUpdate Added methods of nextRound (with warning if no changes occured)
- *               and sortList and nextTurn button
+ * @update December 3rd 2014 Latest update of this file
+ * @LatestUpdate Removed nextRound, implemented it into nextTurn
  * 
  */
 
@@ -64,9 +59,6 @@ public class AppMain extends JFrame {
 	JSeparator topSeperator = new JSeparator();
 
 	JButton sortListButton = new JButton(SORTLIST);
-	JLabel nextRoundLabel = new JLabel(NEXTROUNDLABEL);
-	JButton nextRoundButton = new JButton(NEXTROUND);
-	JLabel nextTurnLabel = new JLabel(NEXTTURNLABEL);
 	JButton nextTurnButton = new JButton(NEXTTURN);
 
 	JSeparator bottomSeperator = new JSeparator();
@@ -92,9 +84,6 @@ public class AppMain extends JFrame {
 		topSeperator.setBounds(0, 55, 1200, 2);
 
 		sortListButton.setBounds(5, 75, 150, 40);
-		nextRoundLabel.setBounds(180, 74, 120, 42);
-		nextRoundButton.setBounds(300, 75, 150, 40);
-		nextTurnLabel.setBounds(475, 75, 120, 40);
 		nextTurnButton.setBounds(600, 75, 150, 40);
 
 		bottomSeperator.setBounds(0, 130, 1200, 2);
@@ -121,9 +110,7 @@ public class AppMain extends JFrame {
 		panel.add(topSeperator);
 
 		panel.add(sortListButton);
-		panel.add(nextRoundLabel);
-		panel.add(nextRoundButton);
-		panel.add(nextTurnLabel);
+
 		panel.add(nextTurnButton);
 
 		panel.add(bottomSeperator);
@@ -201,22 +188,6 @@ public class AppMain extends JFrame {
 		// Behavior of sortListButton
 
 		/**
-		 * Increase all active (non-zero) (de)buff spinners by 1 If none were
-		 * changed gives a warning
-		 */
-		// Behavior of nextRoundButton
-		nextRoundButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-				if (!repository.nextRound()) {
-					JOptionPane.showMessageDialog(rootPane, NOACTIVEDEBUFFS);
-				}
-			}
-
-		});
-		// Behavior of nextRoundButton
-
-		/**
 		 * Rearrange panels. Highest becomes lowest. All others move up one
 		 * place.
 		 */
@@ -226,6 +197,9 @@ public class AppMain extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				Collections.rotate(arrList.subList(0, arrList.size()), -1);
 				repository.repositionPanels();
+				if (repository.nextRound(arrList.get(0))){
+					JOptionPane.showMessageDialog(panel, DEBUFFEXPIRED);
+				}
 			}
 
 		});

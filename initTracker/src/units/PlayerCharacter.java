@@ -30,7 +30,7 @@ import utility.Utility;
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
  * @update December 1st 2014 Latest update of this file
- * @LatestUpdate Added method increaseDebuffs, and methods for sortList
+ * @LatestUpdate Replaced increaseDebuffs with updateDebuffs
  * 
  * */
 
@@ -109,12 +109,12 @@ public class PlayerCharacter extends JPanel implements
 	public PlayerCharacter() {
 
 		Utility.increasePlayerCharacterCounter();
-		panel_Y_pos = repository.getPanelYpos((Utility
-				.getPlayerCharacterCounter() - 1));
+		panel_Y_pos = repository.getPanelYpos(Utility
+				.getPlayerCharacterCounter());
 
 		// Alternates background color of the created instances between gray and
 		// light gray
-		if ((Utility.getPlayerCharacterCounter() - 1) % 2 <= 0) {
+		if ((Utility.getPlayerCharacterCounter()) % 2 <= 0) {
 			setBackground(Color.GRAY);
 		} else {
 			setBackground(Color.LIGHT_GRAY);
@@ -229,35 +229,47 @@ public class PlayerCharacter extends JPanel implements
 	
 
 	/**
-	 * Increases all Debuffs that do not have a value of 0
-	 * 
-	 * @return Returns true if anything was changed
+	 * Decreases all Debuffs that do not have a value of 0
+	 * Then checks if a new value is 0 and gives that back in te form of the return
+	 * @return Returns true if a newly changed value is now 0
 	 */
-	public boolean increaseDebuffs() {
+	public boolean updateDebuffs() {
 		boolean b = false;
 		if (getDebuffTopLeft() != 0) {
-			setDebuffTopLeft((getDebuffTopLeft()) + 1);
-			b = true;
+			setDebuffTopLeft((getDebuffTopLeft()) - 1);
+			if (getDebuffTopLeft() == 0){
+				b = true;
+			}	
 		}
 		if (getDebuffTopCenter() != 0) {
-			setDebuffTopCenter((getDebuffTopCenter()) + 1);
-			b = true;
+			setDebuffTopCenter((getDebuffTopCenter()) - 1);
+			if (getDebuffTopCenter() == 0){
+				b = true;
+			}	
 		}
 		if (getDebuffTopRight() != 0) {
-			setDebuffTopRight((getDebuffTopRight()) + 1);
-			b = true;
+			setDebuffTopRight((getDebuffTopRight()) - 1);
+			if (getDebuffTopRight() == 0){
+				b = true;
+			}	
 		}
 		if (getDebuffBottomLeft() != 0) {
-			setDebuffBottomLeft((getDebuffBottomLeft()) + 1);
-			b = true;
+			setDebuffBottomLeft((getDebuffBottomLeft()) - 1);
+			if (getDebuffBottomLeft() == 0){
+				b = true;
+			}	
 		}
 		if (getDebuffBottomCenter() != 0) {
-			setDebuffBottomCenter((getDebuffBottomCenter()) + 1);
-			b = true;
+			setDebuffBottomCenter((getDebuffBottomCenter()) - 1);
+			if (getDebuffBottomCenter() == 0){
+				b = true;
+			}	
 		}
 		if (getDebuffBottomRight() != 0) {
-			setDebuffBottomRight((getDebuffBottomRight()) + 1);
-			b = true;
+			setDebuffBottomRight((getDebuffBottomRight()) - 1);
+			if (getDebuffBottomRight() == 0){
+				b = true;
+			}	
 		}
 		return b;
 	}
