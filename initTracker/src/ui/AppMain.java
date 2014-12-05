@@ -35,7 +35,8 @@ import utility.Utility;
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
  * @update December 3rd 2014 Latest update of this file
- * @LatestUpdate Added connection to methods to save a preset from utility.Utility
+ * @LatestUpdate Added connection to methods to save and load a preset from
+ *               utility.Utility
  * 
  */
 
@@ -152,8 +153,23 @@ public class AppMain extends JFrame {
 		loadPresetButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				// TODO method to handle loadPresetButton
+				// TODO choosing which preset to load
+				final ArrayList<PlayerCharacter> arrListTMP = repository
+						.loadPreset(0);
+				SwingUtilities.invokeLater(new Runnable() {
 
+					@Override
+					public void run() {
+						for (PlayerCharacter pc : arrListTMP) {
+							arrList.add(pc);
+							panel.add(pc);
+						}
+						panel.validate();
+						panel.repaint();
+
+					}
+
+				});
 			}
 
 		});
@@ -166,6 +182,7 @@ public class AppMain extends JFrame {
 		savePresetButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				// TODO way to let user name the file
 				repository.savePreset(arrList);
 			}
 
@@ -196,7 +213,7 @@ public class AppMain extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				Collections.rotate(arrList.subList(0, arrList.size()), -1);
 				repository.repositionPanels(arrList);
-				if (repository.nextRound(arrList.get(0))){
+				if (repository.nextRound(arrList.get(0))) {
 					JOptionPane.showMessageDialog(panel, DEBUFFEXPIRED);
 				}
 			}
@@ -221,7 +238,7 @@ public class AppMain extends JFrame {
 						panel.add(newPlayerCharacter);
 						panel.validate();
 						panel.repaint();
-						
+
 					}
 
 				}); // Behavior of addPlayerButton
