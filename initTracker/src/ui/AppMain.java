@@ -35,7 +35,7 @@ import utility.Utility;
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
  * @update December 3rd 2014 Latest update of this file
- * @LatestUpdate Removed nextRound, implemented it into nextTurn
+ * @LatestUpdate Added connection to methods to save a preset from utility.Utility
  * 
  */
 
@@ -166,8 +166,7 @@ public class AppMain extends JFrame {
 		savePresetButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				// TODO method to handle savePresetButton
-
+				repository.savePreset(arrList);
 			}
 
 		});
@@ -181,7 +180,7 @@ public class AppMain extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				Collections.sort(arrList);
-				repository.repositionPanels();
+				repository.repositionPanels(arrList);
 			}
 
 		});
@@ -196,7 +195,7 @@ public class AppMain extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				Collections.rotate(arrList.subList(0, arrList.size()), -1);
-				repository.repositionPanels();
+				repository.repositionPanels(arrList);
 				if (repository.nextRound(arrList.get(0))){
 					JOptionPane.showMessageDialog(panel, DEBUFFEXPIRED);
 				}
