@@ -27,9 +27,8 @@ import units.PlayerCharacter;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update December 5th 2014 Latest update of this file
- * @LatestUpdate Added methods savePreset, createNewPresetFile, and
- *               getPresetFile, loadPreset
+ * @update December 8th 2014 Latest update of this file
+ * @LatestUpdate Changed loadpreset and savepreset to receive a file, removed some methods that filechooser made obsolete
  * 
  */
 
@@ -47,14 +46,7 @@ public class Utility {
 		return INSTANCE;
 	}
 
-	private static final String BASE_DIRECTORY = "E:/peon/java workspaces/pathfinder";
-
 	private static ArrayList<PlayerCharacter> arrListTMP = new ArrayList<>();
-
-	/**
-	 * Keeps track how many presets have been saved
-	 */
-	private static int presetCounter;
 
 	/**
 	 * Counter used to give each {@link PlayerCharacter} an unique ID Starts at
@@ -99,9 +91,9 @@ public class Utility {
 	 * file is handled by createNewPresetFile
 	 * 
 	 * @param arrList
+	 * @param presetFile 
 	 */
-	public void savePreset(ArrayList<PlayerCharacter> arrList) {
-		File presetFile = createNewPresetFile();
+	public void savePreset(ArrayList<PlayerCharacter> arrList, File presetFile) {
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(presetFile))) {
 			for (PlayerCharacter pc : arrList) {
 
@@ -133,46 +125,22 @@ public class Utility {
 
 	}
 
-	/**
-	 * Checks all files in directory so it doesn't overwrite previous files
-	 * 
-	 * @return A new file created
-	 */
-	private File createNewPresetFile() {
-		File presetFile = getPresetFile(presetCounter);
-		while (presetFile.exists()) {
-			presetCounter++;
-			presetFile = getPresetFile(presetCounter);
-		}
 
-		return presetFile;
-	}
 
-	/**
-	 * Method to see if a file exists
-	 * 
-	 * @param presetcounter
-	 * @return File found
-	 */
-	private static File getPresetFile(int presetcounter) {
-		return new File(BASE_DIRECTORY, "preset" + presetCounter + ".txt");
-	}
 
 	/**
 	 * Reads the file, each line becomes a new PlayerCharacter, each line contains all needed attributes
-	 * @param preset Parameter to determine which file needs to be read
+	 * @param file Parameter to determine which file needs to be read
 	 * @return ArrayList of PlayerCharacters to be created in AppMain
 	 */
-	public ArrayList<PlayerCharacter> loadPreset(int preset) {
+	public ArrayList<PlayerCharacter> loadPreset(File presetFile) {
 		// Find file
-		File presetFile = getPresetFile(preset);
 		if (presetFile == null || !presetFile.exists()) {
 			System.out.println("File not found");
 		} else {
 			FileReader fr;
 			try {
-				fr = new FileReader("" + BASE_DIRECTORY + "\\" + "preset"
-						+ preset + ".txt");
+				fr = new FileReader(presetFile);
 				BufferedReader br = new BufferedReader(fr);
 
 				for (String line = br.readLine(); line != null; line = br

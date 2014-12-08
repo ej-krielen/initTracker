@@ -18,12 +18,14 @@ import java.util.Collections;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import units.PlayerCharacter;
 import utility.Utility;
@@ -35,8 +37,7 @@ import utility.Utility;
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
  * @update December 3rd 2014 Latest update of this file
- * @LatestUpdate Added connection to methods to save and load a preset from
- *               utility.Utility
+ * @LatestUpdate loadPresetButton and save now use filechooser
  * 
  */
 
@@ -63,6 +64,13 @@ public class AppMain extends JFrame {
 	JButton nextTurnButton = new JButton(NEXTTURN);
 
 	JSeparator bottomSeperator = new JSeparator();
+
+	JFileChooser fc = new JFileChooser();
+	/**
+	 * Filter to restrict the type of files that can be chosen to .txt files
+	 */
+	FileNameExtensionFilter filter = new FileNameExtensionFilter(
+	        "Text files", "txt");
 
 	/**
 	 * Constructor to make the interface
@@ -153,23 +161,29 @@ public class AppMain extends JFrame {
 		loadPresetButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				// TODO choosing which preset to load
-				final ArrayList<PlayerCharacter> arrListTMP = repository
-						.loadPreset(0);
-				SwingUtilities.invokeLater(new Runnable() {
+				fc.setFileFilter(filter);
+				int returnVal = fc.showOpenDialog(rootPane);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					final ArrayList<PlayerCharacter> arrListTMP = repository
+							.loadPreset(fc.getSelectedFile());
 
-					@Override
-					public void run() {
-						for (PlayerCharacter pc : arrListTMP) {
-							arrList.add(pc);
-							panel.add(pc);
+					SwingUtilities.invokeLater(new Runnable() {
+
+						@Override
+						public void run() {
+							for (PlayerCharacter pc : arrListTMP) {
+								arrList.add(pc);
+								panel.add(pc);
+							}
+							panel.validate();
+							panel.repaint();
+
 						}
-						panel.validate();
-						panel.repaint();
+					});
+				} else {
+					System.out.println("file not found");
+				}
 
-					}
-
-				});
 			}
 
 		});
@@ -182,8 +196,13 @@ public class AppMain extends JFrame {
 		savePresetButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				// TODO way to let user name the file
-				repository.savePreset(arrList);
+				// TODO only save as txt. give example name
+				int returnVal = fc.showSaveDialog(rootPane);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					repository.savePreset(arrList, fc.getSelectedFile());
+				}
+
+				
 			}
 
 		});
