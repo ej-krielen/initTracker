@@ -36,8 +36,8 @@ import utility.Utility;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update December 3rd 2014 Latest update of this file
- * @LatestUpdate loadPresetButton and save now use filechooser
+ * @update December 12th 2014 Latest update of this file
+ * @LatestUpdate Clears old panels when loading a preset, method to remove individual panel
  * 
  */
 
@@ -51,7 +51,7 @@ public class AppMain extends JFrame {
 	public static ArrayList<PlayerCharacter> arrList = new ArrayList<>();
 
 	// panel where elements can be put in
-	private JPanel panel = new JPanel();
+	private static JPanel panel = new JPanel();
 	// panel elements
 	JButton loadPresetButton = new JButton(LOADPRESET);
 	JButton savePresetButton = new JButton(SAVEPRESET);
@@ -69,8 +69,8 @@ public class AppMain extends JFrame {
 	/**
 	 * Filter to restrict the type of files that can be chosen to .txt files
 	 */
-	FileNameExtensionFilter filter = new FileNameExtensionFilter(
-	        "Text files", "txt");
+	FileNameExtensionFilter filter = new FileNameExtensionFilter("Text files",
+			"txt");
 
 	/**
 	 * Constructor to make the interface
@@ -130,7 +130,7 @@ public class AppMain extends JFrame {
 		setVisible(true);
 		interfaceControls();
 
-	}
+	}// end of constructor
 
 	/**
 	 * 
@@ -171,12 +171,20 @@ public class AppMain extends JFrame {
 
 						@Override
 						public void run() {
+							for (PlayerCharacter pc : arrList) {
+								panel.remove(pc);
+								panel.validate();
+								panel.repaint();
+							}
+							arrList.clear();
 							for (PlayerCharacter pc : arrListTMP) {
 								arrList.add(pc);
 								panel.add(pc);
+								panel.validate();
+								panel.repaint();
 							}
-							panel.validate();
-							panel.repaint();
+							arrListTMP.clear();
+							repository.repositionPanels(arrList);
 
 						}
 					});
@@ -257,12 +265,38 @@ public class AppMain extends JFrame {
 						panel.add(newPlayerCharacter);
 						panel.validate();
 						panel.repaint();
+						repository.repositionPanels(arrList);
 
 					}
 
 				}); // Behavior of addPlayerButton
 			}
 		});
+		
 
 	}
+
+	
+	public static void removePanel(ActionListener actionListener) {
+		
+		
+		for (final PlayerCharacter pc : arrList) {
+			if (pc.getIsRemoveMe()) {
+				SwingUtilities.invokeLater(new Runnable() {
+
+					@Override
+					public void run() {
+						panel.remove(pc);
+						arrList.remove(pc);
+						panel.validate();
+						panel.repaint();
+						Utility repository = Utility.getInstance();
+						repository.repositionPanels(arrList);
+					}
+
+				});
+			}
+		}
+	}
+
 }

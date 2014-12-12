@@ -10,6 +10,8 @@ import static utility.EN_res.REMOVE;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -29,8 +31,8 @@ import utility.Utility;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update December 1st 2014 Latest update of this file
- * @LatestUpdate Replaced increaseDebuffs with updateDebuffs
+ * @update December 12st 2014 Latest update of this file
+ * @LatestUpdate Added way to remove panel
  * 
  * */
 
@@ -68,6 +70,8 @@ public class PlayerCharacter extends JPanel implements
 	private int debuffBottomLeft;
 	private int debuffBottomCenter;
 	private int debuffBottomRight;
+
+	private boolean isRemoveMe = false;
 
 	// variable used to determine the y pos of the instance of this panel
 	private int panel_Y_pos;
@@ -224,52 +228,68 @@ public class PlayerCharacter extends JPanel implements
 		this.add(debuffsLabel);
 		this.add(removeButton);
 
+		interfaceControls();
+
 	}// end of constructor
 
-	
+	/**
+	 * 
+	 */
+	private void interfaceControls() {
+		removeButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				isRemoveMe = true;
+				AppMain.removePanel(this);
+			}
+
+		});
+
+	}
 
 	/**
-	 * Decreases all Debuffs that do not have a value of 0
-	 * Then checks if a new value is 0 and gives that back in te form of the return
+	 * Decreases all Debuffs that do not have a value of 0 Then checks if a new
+	 * value is 0 and gives that back in te form of the return
+	 * 
 	 * @return Returns true if a newly changed value is now 0
 	 */
 	public boolean updateDebuffs() {
 		boolean b = false;
 		if (getDebuffTopLeft() != 0) {
 			setDebuffTopLeft((getDebuffTopLeft()) - 1);
-			if (getDebuffTopLeft() == 0){
+			if (getDebuffTopLeft() == 0) {
 				b = true;
-			}	
+			}
 		}
 		if (getDebuffTopCenter() != 0) {
 			setDebuffTopCenter((getDebuffTopCenter()) - 1);
-			if (getDebuffTopCenter() == 0){
+			if (getDebuffTopCenter() == 0) {
 				b = true;
-			}	
+			}
 		}
 		if (getDebuffTopRight() != 0) {
 			setDebuffTopRight((getDebuffTopRight()) - 1);
-			if (getDebuffTopRight() == 0){
+			if (getDebuffTopRight() == 0) {
 				b = true;
-			}	
+			}
 		}
 		if (getDebuffBottomLeft() != 0) {
 			setDebuffBottomLeft((getDebuffBottomLeft()) - 1);
-			if (getDebuffBottomLeft() == 0){
+			if (getDebuffBottomLeft() == 0) {
 				b = true;
-			}	
+			}
 		}
 		if (getDebuffBottomCenter() != 0) {
 			setDebuffBottomCenter((getDebuffBottomCenter()) - 1);
-			if (getDebuffBottomCenter() == 0){
+			if (getDebuffBottomCenter() == 0) {
 				b = true;
-			}	
+			}
 		}
 		if (getDebuffBottomRight() != 0) {
 			setDebuffBottomRight((getDebuffBottomRight()) - 1);
-			if (getDebuffBottomRight() == 0){
+			if (getDebuffBottomRight() == 0) {
 				b = true;
-			}	
+			}
 		}
 		return b;
 	}
@@ -283,6 +303,16 @@ public class PlayerCharacter extends JPanel implements
 		Integer i2 = pc.getIniative();
 		return i2.compareTo(i1);
 
+	}
+
+	// getters and setters
+
+	public boolean getIsRemoveMe() {
+		return isRemoveMe;
+	}
+
+	public void setRemoveMe(boolean isRemoveMe) {
+		this.isRemoveMe = isRemoveMe;
 	}
 
 	// getters and setters !modified!
