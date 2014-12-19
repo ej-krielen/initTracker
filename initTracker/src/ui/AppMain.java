@@ -36,8 +36,8 @@ import utility.Utility;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update December 12th 2014 Latest update of this file
- * @LatestUpdate Clears old panels when loading a preset, method to remove individual panel
+ * @update December 19th 2014 Latest update of this file
+ * @LatestUpdate Addes method to addMonsterButton
  * 
  */
 
@@ -260,7 +260,7 @@ public class AppMain extends JFrame {
 
 					@Override
 					public void run() {
-						PlayerCharacter newPlayerCharacter = new PlayerCharacter();
+						PlayerCharacter newPlayerCharacter = new PlayerCharacter(false);
 						arrList.add(newPlayerCharacter);
 						panel.add(newPlayerCharacter);
 						panel.validate();
@@ -270,6 +270,31 @@ public class AppMain extends JFrame {
 					}
 
 				}); // Behavior of addPlayerButton
+			}
+		});
+		
+		/**
+		 * When user clicks on button, create a new panel
+		 */
+		// Behavior of addMonsterButton
+		addMonsterButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				// TODO extract to utility if possible
+				SwingUtilities.invokeLater(new Runnable() {
+
+					@Override
+					public void run() {
+						PlayerCharacter newMonster = new PlayerCharacter(true);
+						arrList.add(newMonster);
+						panel.add(newMonster);
+						panel.validate();
+						panel.repaint();
+						repository.repositionPanels(arrList);
+
+					}
+
+				}); // Behavior of addMonsterButton
 			}
 		});
 		

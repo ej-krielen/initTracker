@@ -27,8 +27,8 @@ import units.PlayerCharacter;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update December 8th 2014 Latest update of this file
- * @LatestUpdate Changed loadpreset and savepreset to receive a file, removed some methods that filechooser made obsolete
+ * @update December 19th 2014 Latest update of this file
+ * @LatestUpdate Updated repositionPanels method for monster colors
  * 
  */
 
@@ -79,9 +79,18 @@ public class Utility {
 			pc.setBounds(PANEL_X, getPanelYpos(newListPosition), PANELWIDTH,
 					PANELHEIGHT);
 			if (newListPosition % 2 <= 0) {
-				pc.setBackground(Color.GRAY);
+				if(pc.getIsMonster()){
+					pc.setBackground(Color.RED);
+				} else {
+					pc.setBackground(Color.GRAY);
+				}
 			} else {
-				pc.setBackground(Color.LIGHT_GRAY);
+				if(pc.getIsMonster()){
+					pc.setBackground(Color.ORANGE);
+				} else {
+					pc.setBackground(Color.LIGHT_GRAY);
+				}
+				
 			}
 		}
 	}
@@ -116,6 +125,8 @@ public class Utility {
 				bw.write("" + pc.getDebuffBottomCenter());
 				bw.write(",");
 				bw.write("" + pc.getDebuffBottomRight());
+				bw.write(",");
+				bw.write("" + pc.getIsMonster());
 				bw.newLine();
 
 			}
@@ -156,6 +167,7 @@ public class Utility {
 					String debuffBottomLeft;
 					String debuffBottomCenter;
 					String debuffBottomRight;
+					String isMonster;
 
 					StringTokenizer stringTokenizer = new StringTokenizer(line,
 							",");
@@ -169,8 +181,9 @@ public class Utility {
 					debuffBottomLeft = stringTokenizer.nextToken();
 					debuffBottomCenter = stringTokenizer.nextToken();
 					debuffBottomRight = stringTokenizer.nextToken();
+					isMonster = stringTokenizer.nextToken();
 
-					PlayerCharacter newPlayerCharacter = new PlayerCharacter();
+					PlayerCharacter newPlayerCharacter = new PlayerCharacter(Boolean.parseBoolean(isMonster));
 					newPlayerCharacter.setIniative(Integer.parseInt(iniative));
 					newPlayerCharacter.setName(name);
 					newPlayerCharacter.setNotes(notes);

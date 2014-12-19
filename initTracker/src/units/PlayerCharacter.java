@@ -31,8 +31,8 @@ import utility.Utility;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update December 12st 2014 Latest update of this file
- * @LatestUpdate Added way to remove panel
+ * @update December 19th 2014 Latest update of this file
+ * @LatestUpdate Added way to add monsters
  * 
  * */
 
@@ -72,6 +72,7 @@ public class PlayerCharacter extends JPanel implements
 	private int debuffBottomRight;
 
 	private boolean isRemoveMe = false;
+	private boolean isMonster = false;
 
 	// variable used to determine the y pos of the instance of this panel
 	private int panel_Y_pos;
@@ -110,8 +111,9 @@ public class PlayerCharacter extends JPanel implements
 	/**
 	 * Constructor to make a new playerCharacter panel
 	 */
-	public PlayerCharacter() {
+	public PlayerCharacter(boolean b) {
 
+		this.isMonster = b;
 		Utility.increasePlayerCharacterCounter();
 		panel_Y_pos = repository.getPanelYpos(Utility
 				.getPlayerCharacterCounter());
@@ -119,9 +121,19 @@ public class PlayerCharacter extends JPanel implements
 		// Alternates background color of the created instances between gray and
 		// light gray
 		if ((Utility.getPlayerCharacterCounter()) % 2 <= 0) {
-			setBackground(Color.GRAY);
+			if(isMonster){
+				setBackground(Color.RED);
+			} else {
+				setBackground(Color.GRAY);
+			}
+			
 		} else {
-			setBackground(Color.LIGHT_GRAY);
+			if(isMonster){
+				setBackground(Color.ORANGE);
+			} else {
+				setBackground(Color.LIGHT_GRAY);
+			}
+			
 		}
 
 		// Set the bounds of the new instance (x pos, y pos, width, height)
@@ -232,6 +244,7 @@ public class PlayerCharacter extends JPanel implements
 
 	}// end of constructor
 
+
 	/**
 	 * 
 	 */
@@ -307,11 +320,19 @@ public class PlayerCharacter extends JPanel implements
 
 	// getters and setters
 
+	public boolean getIsMonster() {
+		return isMonster;
+	}
+
+	public void setIsMonster(boolean isMonster) {
+		this.isMonster = isMonster;
+	}
+
 	public boolean getIsRemoveMe() {
 		return isRemoveMe;
 	}
 
-	public void setRemoveMe(boolean isRemoveMe) {
+	public void setisRemoveMe(boolean isRemoveMe) {
 		this.isRemoveMe = isRemoveMe;
 	}
 
