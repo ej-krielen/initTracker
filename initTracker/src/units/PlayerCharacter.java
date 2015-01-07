@@ -3,16 +3,29 @@ package units;
 import static utility.EN_res.DEBUFFSLABELTEXT;
 import static utility.EN_res.HPLABELTEXT;
 import static utility.EN_res.INITIATIVELABELTEXT;
+import static utility.EN_res.MONSTERINPUT;
 import static utility.EN_res.NAMELABELTEXT;
 import static utility.EN_res.NOTESINPUT;
 import static utility.EN_res.PLAYERINPUT;
 import static utility.EN_res.REMOVE;
+import static utility.FixedNumbers.BOTTOM_DEBUFF;
+import static utility.FixedNumbers.DEBUFFHEIGHT;
+import static utility.FixedNumbers.DEBUFFWIDTH;
+import static utility.FixedNumbers.LABELHEIGHT;
+import static utility.FixedNumbers.LABEL_Y;
+import static utility.FixedNumbers.PANELHEIGHT;
+import static utility.FixedNumbers.PANELWIDTH;
+import static utility.FixedNumbers.PANEL_X;
+import static utility.FixedNumbers.TEXTAREABOX;
+import static utility.FixedNumbers.TOP_DEBUFF;
+import static utility.FixedNumbers.TOP_Y;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -31,8 +44,8 @@ import utility.Utility;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update December 19th 2014 Latest update of this file
- * @LatestUpdate Added way to add monsters
+ * @update January 7th 2015 Latest update of this file
+ * @LatestUpdate Separated players from monsters more
  * 
  * */
 
@@ -44,21 +57,6 @@ public class PlayerCharacter extends JPanel implements
 	private Utility repository = Utility.getInstance();
 
 	// variables used
-
-	// variables of the instance of the panel
-	public static final int PANEL_X = 5;
-	public static final int PANELWIDTH = 1150;
-	public static final int PANELHEIGHT = 100;
-
-	// variables used to position elements inside the panel
-	private static final int TOP_Y = 5;
-	private static final int LABEL_Y = 80;
-	private static final int LABELHEIGHT = 15;
-	private static final int TEXTAREABOX = 60;
-	private static final int TOP_DEBUFF = 5;
-	private static final int BOTTOM_DEBUFF = 45;
-	private static final int DEBUFFWIDTH = 50;
-	private static final int DEBUFFHEIGHT = 35;
 
 	private String name;
 	private int iniative;
@@ -114,36 +112,36 @@ public class PlayerCharacter extends JPanel implements
 	public PlayerCharacter(boolean b) {
 
 		this.isMonster = b;
-		Utility.increasePlayerCharacterCounter();
-		panel_Y_pos = repository.getPanelYpos(Utility
-				.getPlayerCharacterCounter());
+		
 
-		// Alternates background color of the created instances between gray and
-		// light gray
-		if ((Utility.getPlayerCharacterCounter()) % 2 <= 0) {
-			if(isMonster){
-				setBackground(Color.RED);
-			} else {
-				setBackground(Color.GRAY);
-			}
-			
+		// Alternates color of the created instances between grey and light gray
+		// to distinguish between player and monster and increases appropriate counter
+		if (isMonster) {
+			setBackground(Color.GRAY);
+			Utility.increaseMonsterCounter();
 		} else {
-			if(isMonster){
-				setBackground(Color.ORANGE);
-			} else {
-				setBackground(Color.LIGHT_GRAY);
-			}
-			
+			setBackground(Color.LIGHT_GRAY);
+			Utility.increasePlayerCharacterCounter();
 		}
+		
+		panel_Y_pos = repository.getPanelYpos(Utility
+				.getPlayerCharacterCounter() + Utility.getMonsterCounter());
 
 		// Set the bounds of the new instance (x pos, y pos, width, height)
 		setBounds(PANEL_X, panel_Y_pos, PANELWIDTH, PANELHEIGHT);
 		setLayout(null);
+		// create a black border around the panel
+		setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 		// initiate components with values
 		iniativeSpinner = new JSpinner(iniativeModel);
-		nameArea = new JTextArea(PLAYERINPUT
-				+ Utility.getPlayerCharacterCounter());
+		if (isMonster) {
+			nameArea = new JTextArea(MONSTERINPUT
+					+ (Utility.getMonsterCounter() + 1));
+		} else {
+			nameArea = new JTextArea(PLAYERINPUT
+					+ (Utility.getPlayerCharacterCounter() +1 ));
+		}
 		notesArea = new JTextArea(NOTESINPUT);
 		hpSpinner = new JSpinner(hpModel);
 		debuffTopLeftSpinner = new JSpinner(debuffModelTL);
@@ -243,7 +241,6 @@ public class PlayerCharacter extends JPanel implements
 		interfaceControls();
 
 	}// end of constructor
-
 
 	/**
 	 * 

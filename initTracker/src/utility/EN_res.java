@@ -7,8 +7,8 @@ package utility;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 20th 2014 Creation of this file
- * @update December 3rd 2014 Latest update of this file
- * @LatestUpdate Removed NextRound, label, and nextturn label added debuffexpired
+ * @update January 7th 2015 Latest update of this file
+ * @LatestUpdate Added Monsterinput
  * 
  */
 
@@ -38,6 +38,7 @@ public final class EN_res {
 
 	// String of input fields
 	public static final String PLAYERINPUT = "Player ";
+	public static final String MONSTERINPUT = "Monster ";
 	public static final String NOTESINPUT = "Notes: ";
 
 	// String of buttons

@@ -1,10 +1,9 @@
 package utility;
 
-import static units.PlayerCharacter.PANELHEIGHT;
-import static units.PlayerCharacter.PANELWIDTH;
-import static units.PlayerCharacter.PANEL_X;
+import static utility.FixedNumbers.PANELHEIGHT;
+import static utility.FixedNumbers.PANELWIDTH;
+import static utility.FixedNumbers.PANEL_X;
 
-import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -27,8 +26,8 @@ import units.PlayerCharacter;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update December 19th 2014 Latest update of this file
- * @LatestUpdate Updated repositionPanels method for monster colors
+ * @update January 7th 2015 Latest update of this file
+ * @LatestUpdate Separated players from monsters more
  * 
  */
 
@@ -62,45 +61,38 @@ public class Utility {
 	}
 
 	/**
-	 * Decreases the playerCharacterCounter by 1 when a new panel is created
+	 * Decreases the playerCharacterCounter by 1 when a new panel is removed
 	 */
-	public static void decreasePlayerCharacterCounter() {
+	public void decreasePlayerCharacterCounter() {
 		playerCharacterCounter--;
 	}
-
+	
+	//Same for monsters
+	private static int monsterCounter = -1;
+	public static void increaseMonsterCounter() {
+		monsterCounter++;
+	}
+	public void decreaseMonsterCounter() {
+		monsterCounter--;
+	}
+	
 	// AppMain exclusive methods
 	/**
-	 * Goes through the arrList from AppMain. Sets positions and colors of
-	 * panels based on position in the arrList.
+	 * Goes through the arrList from AppMain. Sets position of panels based on
+	 * position in the arrList.
 	 */
 	public void repositionPanels(ArrayList<PlayerCharacter> arrList) {
 		for (PlayerCharacter pc : arrList) {
-			int newListPosition = arrList.indexOf(pc);
-			pc.setBounds(PANEL_X, getPanelYpos(newListPosition), PANELWIDTH,
-					PANELHEIGHT);
-			if (newListPosition % 2 <= 0) {
-				if(pc.getIsMonster()){
-					pc.setBackground(Color.RED);
-				} else {
-					pc.setBackground(Color.GRAY);
-				}
-			} else {
-				if(pc.getIsMonster()){
-					pc.setBackground(Color.ORANGE);
-				} else {
-					pc.setBackground(Color.LIGHT_GRAY);
-				}
-				
-			}
+			pc.setBounds(PANEL_X, getPanelYpos(arrList.indexOf(pc)),
+					PANELWIDTH, PANELHEIGHT);
 		}
 	}
 
 	/**
-	 * Saves all PlayerCharacters from arrList into a text file. Creating a new
-	 * file is handled by createNewPresetFile
+	 * Saves all PlayerCharacters from arrList into a text file.
 	 * 
 	 * @param arrList
-	 * @param presetFile 
+	 * @param presetFile
 	 */
 	public void savePreset(ArrayList<PlayerCharacter> arrList, File presetFile) {
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(presetFile))) {
@@ -136,12 +128,12 @@ public class Utility {
 
 	}
 
-
-
-
 	/**
-	 * Reads the file, each line becomes a new PlayerCharacter, each line contains all needed attributes
-	 * @param file Parameter to determine which file needs to be read
+	 * Reads the file, each line becomes a new PlayerCharacter, each line
+	 * contains all needed attributes
+	 * 
+	 * @param file
+	 *            Parameter to determine which file needs to be read
 	 * @return ArrayList of PlayerCharacters to be created in AppMain
 	 */
 	public ArrayList<PlayerCharacter> loadPreset(File presetFile) {
@@ -183,7 +175,8 @@ public class Utility {
 					debuffBottomRight = stringTokenizer.nextToken();
 					isMonster = stringTokenizer.nextToken();
 
-					PlayerCharacter newPlayerCharacter = new PlayerCharacter(Boolean.parseBoolean(isMonster));
+					PlayerCharacter newPlayerCharacter = new PlayerCharacter(
+							Boolean.parseBoolean(isMonster));
 					newPlayerCharacter.setIniative(Integer.parseInt(iniative));
 					newPlayerCharacter.setName(name);
 					newPlayerCharacter.setNotes(notes);
@@ -275,6 +268,9 @@ public class Utility {
 	// getters and setters
 	public static int getPlayerCharacterCounter() {
 		return playerCharacterCounter;
+	}
+	public static int getMonsterCounter() {
+		return monsterCounter;
 	}
 
 }

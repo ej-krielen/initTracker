@@ -8,11 +8,14 @@ import static utility.EN_res.NEXTTURN;
 import static utility.EN_res.SAVEPRESET;
 import static utility.EN_res.SORTLIST;
 import static utility.EN_res.WINDOWNAME;
+import static utility.FixedNumbers.GUIHEIGHT;
+import static utility.FixedNumbers.GUIWIDTH;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -36,8 +39,8 @@ import utility.Utility;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update December 19th 2014 Latest update of this file
- * @LatestUpdate Addes method to addMonsterButton
+ * @update January 7th 2015 Latest update of this file
+ * @LatestUpdate Separated players from monsters more, forced .txt as extension when saving
  * 
  */
 
@@ -80,7 +83,7 @@ public class AppMain extends JFrame {
 		// title of the window
 		super(WINDOWNAME);
 		// width and height of the panel (inclusive title bar and borders)
-		setSize(1200, 750);
+		setSize(GUIWIDTH, GUIHEIGHT);
 		setLocation(250, 50);
 		panel.setLayout(null);
 
@@ -123,7 +126,7 @@ public class AppMain extends JFrame {
 		panel.add(nextTurnButton);
 
 		panel.add(bottomSeperator);
-
+		
 		// methods needed for default interface behavior
 		getContentPane().add(panel);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -204,13 +207,17 @@ public class AppMain extends JFrame {
 		savePresetButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				// TODO only save as txt. give example name
 				int returnVal = fc.showSaveDialog(rootPane);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					repository.savePreset(arrList, fc.getSelectedFile());
-				}
-
-				
+					//check if extension is .txt if not add .txt
+					File file = fc.getSelectedFile();
+					String filePath = file.getPath();
+					if(!filePath.toLowerCase().endsWith(".txt"))
+					{
+					    file = new File(filePath + ".txt");
+					}
+					repository.savePreset(arrList, file);
+				}				
 			}
 
 		});
@@ -307,15 +314,22 @@ public class AppMain extends JFrame {
 		
 		for (final PlayerCharacter pc : arrList) {
 			if (pc.getIsRemoveMe()) {
+				Utility repository = Utility.getInstance();
+				if (pc.getIsMonster()){
+					repository.decreaseMonsterCounter();
+				} else {
+					repository.decreasePlayerCharacterCounter();
+				}
 				SwingUtilities.invokeLater(new Runnable() {
 
 					@Override
 					public void run() {
+						
 						panel.remove(pc);
 						arrList.remove(pc);
 						panel.validate();
 						panel.repaint();
-						Utility repository = Utility.getInstance();
+						Utility repository = Utility.getInstance();						
 						repository.repositionPanels(arrList);
 					}
 
