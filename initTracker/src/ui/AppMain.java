@@ -8,9 +8,16 @@ import static utility.EN_res.NEXTTURN;
 import static utility.EN_res.SAVEPRESET;
 import static utility.EN_res.SORTLIST;
 import static utility.EN_res.WINDOWNAME;
+import static utility.FixedNumbers.BUTTONHEIGHT;
+import static utility.FixedNumbers.BUTTONWIDTH;
 import static utility.FixedNumbers.GUIHEIGHT;
 import static utility.FixedNumbers.GUIWIDTH;
+import static utility.FixedNumbers.HGAP;
+import static utility.FixedNumbers.VGAP;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -19,13 +26,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -39,8 +47,8 @@ import utility.Utility;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update January 7th 2015 Latest update of this file
- * @LatestUpdate Separated players from monsters more, forced .txt as extension when saving
+ * @update January 8th 2015 Latest update of this file
+ * @LatestUpdate Updated for new Layout functions so we can get a scrollbar
  * 
  */
 
@@ -53,20 +61,18 @@ public class AppMain extends JFrame {
 
 	public static ArrayList<PlayerCharacter> arrList = new ArrayList<>();
 
-	// panel where elements can be put in
+	// panels where elements can be put in
 	private static JPanel panel = new JPanel();
+	private JPanel topPanel = new JPanel();
+	private static JPanel contentPanel = new JPanel();
 	// panel elements
-	JButton loadPresetButton = new JButton(LOADPRESET);
-	JButton savePresetButton = new JButton(SAVEPRESET);
-	JButton addPlayerButton = new JButton(ADDPLAYER);
-	JButton addMonsterButton = new JButton(ADDMONSTER);
+	private JButton loadPresetButton = new JButton(LOADPRESET);
+	private JButton savePresetButton = new JButton(SAVEPRESET);
+	private JButton addPlayerButton = new JButton(ADDPLAYER);
+	private JButton addMonsterButton = new JButton(ADDMONSTER);
 
-	JSeparator topSeperator = new JSeparator();
-
-	JButton sortListButton = new JButton(SORTLIST);
-	JButton nextTurnButton = new JButton(NEXTTURN);
-
-	JSeparator bottomSeperator = new JSeparator();
+	private JButton sortListButton = new JButton(SORTLIST);
+	private JButton nextTurnButton = new JButton(NEXTTURN);
 
 	JFileChooser fc = new JFileChooser();
 	/**
@@ -84,21 +90,28 @@ public class AppMain extends JFrame {
 		super(WINDOWNAME);
 		// width and height of the panel (inclusive title bar and borders)
 		setSize(GUIWIDTH, GUIHEIGHT);
+		//sets initial location on screen
 		setLocation(250, 50);
-		panel.setLayout(null);
+		
+		//Layout options
+		//places contentPanel in a panel that automatically gets a scrollbar
+		JScrollPane scrollPanel = new JScrollPane(contentPanel);
+		//sets the layouts for the panels
+		panel.setLayout(new BorderLayout());		
+		panel.add(scrollPanel, BorderLayout.CENTER);
+		topPanel.setLayout(new FlowLayout(FlowLayout.CENTER, HGAP, VGAP));
+		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
-		// set pos x, pos y, width and height of each element
-		loadPresetButton.setBounds(5, 5, 150, 40);
-		savePresetButton.setBounds(200, 5, 150, 40);
-		addPlayerButton.setBounds(400, 5, 150, 40);
-		addMonsterButton.setBounds(600, 5, 150, 40);
+		// set width and height of each buttons
+		Dimension buttonSize = new Dimension(BUTTONWIDTH, BUTTONHEIGHT);
+		loadPresetButton.setPreferredSize(new Dimension(buttonSize));
+		savePresetButton.setPreferredSize(new Dimension(buttonSize));
+		addPlayerButton.setPreferredSize(new Dimension(buttonSize));
+		addMonsterButton.setPreferredSize(new Dimension(buttonSize));
+		
+		sortListButton.setPreferredSize(new Dimension(buttonSize));
+		nextTurnButton.setPreferredSize(new Dimension(buttonSize));
 
-		topSeperator.setBounds(0, 55, 1200, 2);
-
-		sortListButton.setBounds(5, 75, 150, 40);
-		nextTurnButton.setBounds(600, 75, 150, 40);
-
-		bottomSeperator.setBounds(0, 130, 1200, 2);
 
 		// makes elements draggable
 		// TODO
@@ -112,20 +125,16 @@ public class AppMain extends JFrame {
 		 * secondDragButton.setTransferHandler(new TransferHandler("text"));
 		 */
 
-		// add elementals to the panel layout
+		// add buttons to the topPanel layout
+		topPanel.add(loadPresetButton);
+		topPanel.add(savePresetButton);
+		topPanel.add(addPlayerButton);
+		topPanel.add(addMonsterButton);
+		topPanel.add(sortListButton);
+		topPanel.add(nextTurnButton);
 
-		panel.add(loadPresetButton);
-		panel.add(savePresetButton);
-		panel.add(addPlayerButton);
-		panel.add(addMonsterButton);
-
-		panel.add(topSeperator);
-
-		panel.add(sortListButton);
-
-		panel.add(nextTurnButton);
-
-		panel.add(bottomSeperator);
+		//add topPanel to panel
+		panel.add(topPanel, BorderLayout.PAGE_START);
 		
 		// methods needed for default interface behavior
 		getContentPane().add(panel);
@@ -175,16 +184,16 @@ public class AppMain extends JFrame {
 						@Override
 						public void run() {
 							for (PlayerCharacter pc : arrList) {
-								panel.remove(pc);
-								panel.validate();
-								panel.repaint();
+								contentPanel.remove(pc);
+								contentPanel.revalidate();
+								contentPanel.repaint();
 							}
 							arrList.clear();
 							for (PlayerCharacter pc : arrListTMP) {
 								arrList.add(pc);
-								panel.add(pc);
-								panel.validate();
-								panel.repaint();
+								contentPanel.add(pc);
+								contentPanel.revalidate();
+								contentPanel.repaint();
 							}
 							arrListTMP.clear();
 							repository.repositionPanels(arrList);
@@ -269,9 +278,9 @@ public class AppMain extends JFrame {
 					public void run() {
 						PlayerCharacter newPlayerCharacter = new PlayerCharacter(false);
 						arrList.add(newPlayerCharacter);
-						panel.add(newPlayerCharacter);
-						panel.validate();
-						panel.repaint();
+						contentPanel.add(newPlayerCharacter);
+						contentPanel.revalidate();
+						contentPanel.repaint();
 						repository.repositionPanels(arrList);
 
 					}
@@ -294,9 +303,9 @@ public class AppMain extends JFrame {
 					public void run() {
 						PlayerCharacter newMonster = new PlayerCharacter(true);
 						arrList.add(newMonster);
-						panel.add(newMonster);
-						panel.validate();
-						panel.repaint();
+						contentPanel.add(newMonster);
+						contentPanel.revalidate();
+						contentPanel.repaint();
 						repository.repositionPanels(arrList);
 
 					}
@@ -325,10 +334,10 @@ public class AppMain extends JFrame {
 					@Override
 					public void run() {
 						
-						panel.remove(pc);
+						contentPanel.remove(pc);
 						arrList.remove(pc);
-						panel.validate();
-						panel.repaint();
+						contentPanel.revalidate();
+						contentPanel.repaint();
 						Utility repository = Utility.getInstance();						
 						repository.repositionPanels(arrList);
 					}

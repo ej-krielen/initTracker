@@ -7,8 +7,8 @@ package utility;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since January 7th 2015 Creation of this file
- * @update January 7th 2015 Latest update of this file
- * @LatestUpdate
+ * @update January 8th 2015 Latest update of this file
+ * @LatestUpdate added button sizes, gaps
  * 
  */
 
@@ -17,6 +17,10 @@ public class FixedNumbers {
 	// AppMain
 	 public static final int GUIWIDTH = 1200;
 	 public static final int GUIHEIGHT = 750;
+	 public static final int BUTTONWIDTH = 150;
+	 public static final int BUTTONHEIGHT = 40;
+	 public static final int HGAP = 40;
+	 public static final int VGAP = 5;
 
 	// Utility
 

@@ -15,12 +15,12 @@ import static utility.FixedNumbers.LABELHEIGHT;
 import static utility.FixedNumbers.LABEL_Y;
 import static utility.FixedNumbers.PANELHEIGHT;
 import static utility.FixedNumbers.PANELWIDTH;
-import static utility.FixedNumbers.PANEL_X;
 import static utility.FixedNumbers.TEXTAREABOX;
 import static utility.FixedNumbers.TOP_DEBUFF;
 import static utility.FixedNumbers.TOP_Y;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,8 +44,8 @@ import utility.Utility;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update January 7th 2015 Latest update of this file
- * @LatestUpdate Separated players from monsters more
+ * @update January 8th 2015 Latest update of this file
+ * @LatestUpdate Updated for new Layout
  * 
  * */
 
@@ -71,9 +71,6 @@ public class PlayerCharacter extends JPanel implements
 
 	private boolean isRemoveMe = false;
 	private boolean isMonster = false;
-
-	// variable used to determine the y pos of the instance of this panel
-	private int panel_Y_pos;
 
 	// panel elements only labels are initiated because their String value is
 	// final
@@ -123,12 +120,12 @@ public class PlayerCharacter extends JPanel implements
 			setBackground(Color.LIGHT_GRAY);
 			Utility.increasePlayerCharacterCounter();
 		}
-		
-		panel_Y_pos = repository.getPanelYpos(Utility
-				.getPlayerCharacterCounter() + Utility.getMonsterCounter());
 
-		// Set the bounds of the new instance (x pos, y pos, width, height)
-		setBounds(PANEL_X, panel_Y_pos, PANELWIDTH, PANELHEIGHT);
+		// Set the size of the new instance (width, height)
+		setMinimumSize(new Dimension(PANELWIDTH, PANELHEIGHT));
+		setPreferredSize(new Dimension(PANELWIDTH, PANELHEIGHT));
+		setMaximumSize(new Dimension(PANELWIDTH, PANELHEIGHT));
+		setSize(new Dimension(PANELWIDTH, PANELHEIGHT));
 		setLayout(null);
 		// create a black border around the panel
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));

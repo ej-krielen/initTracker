@@ -26,8 +26,8 @@ import units.PlayerCharacter;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update January 7th 2015 Latest update of this file
- * @LatestUpdate Separated players from monsters more
+ * @update January 8th 2015 Latest update of this file
+ * @LatestUpdate Updated for new Layout
  * 
  */
 
@@ -258,11 +258,7 @@ public class Utility {
 	 * @return Y position of the new instance
 	 */
 	public int getPanelYpos(int tmpCounter) {
-		if (tmpCounter == 0) {
-			return 150;
-		} else {
-			return (150 + (100 * (tmpCounter)));
-		}
+		return (PANELHEIGHT * tmpCounter);
 	}
 
 	// getters and setters
