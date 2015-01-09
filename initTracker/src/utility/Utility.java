@@ -2,7 +2,6 @@ package utility;
 
 import static utility.FixedNumbers.PANELHEIGHT;
 import static utility.FixedNumbers.PANELWIDTH;
-import static utility.FixedNumbers.PANEL_X;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -26,8 +25,8 @@ import units.PlayerCharacter;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update January 8th 2015 Latest update of this file
- * @LatestUpdate Updated for new Layout
+ * @update January 9th 2015 Latest update of this file
+ * @LatestUpdate Updated for new Layout, fixed aligment bug
  * 
  */
 
@@ -83,7 +82,7 @@ public class Utility {
 	 */
 	public void repositionPanels(ArrayList<PlayerCharacter> arrList) {
 		for (PlayerCharacter pc : arrList) {
-			pc.setBounds(PANEL_X, getPanelYpos(arrList.indexOf(pc)),
+			pc.setBounds(15, getPanelYpos(arrList.indexOf(pc)),
 					PANELWIDTH, PANELHEIGHT);
 		}
 	}

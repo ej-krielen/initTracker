@@ -20,7 +20,7 @@ public class FixedNumbers {
 	 public static final int BUTTONWIDTH = 150;
 	 public static final int BUTTONHEIGHT = 40;
 	 public static final int HGAP = 40;
-	 public static final int VGAP = 5;
+	 public static final int VGAP = 10;
 
 	// Utility
 
