@@ -20,25 +20,23 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
-import javax.swing.TransferHandler;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import units.PlayerCharacter;
+import utility.DragHandler;
 import utility.Utility;
 
 /**
@@ -47,8 +45,8 @@ import utility.Utility;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update January 8th 2015 Latest update of this file
- * @LatestUpdate Updated for new Layout functions so we can get a scrollbar
+ * @update January 13th 2015 Latest update of this file
+ * @LatestUpdate Added drop and drag functionality
  * 
  */
 
@@ -65,6 +63,7 @@ public class AppMain extends JFrame {
 	private static JPanel panel = new JPanel();
 	private JPanel topPanel = new JPanel();
 	private static JPanel contentPanel = new JPanel();
+	private static Box box = Box.createVerticalBox();
 	// panel elements
 	private JButton loadPresetButton = new JButton(LOADPRESET);
 	private JButton savePresetButton = new JButton(SAVEPRESET);
@@ -90,17 +89,26 @@ public class AppMain extends JFrame {
 		super(WINDOWNAME);
 		// width and height of the panel (inclusive title bar and borders)
 		setSize(GUIWIDTH, GUIHEIGHT);
-		//sets initial location on screen
+		// sets initial location on screen
 		setLocation(250, 50);
-		
-		//Layout options
-		//places contentPanel in a panel that automatically gets a scrollbar
+
+		// Layout options
+		// places contentPanel in a panel that automatically gets a scrollbar
 		JScrollPane scrollPanel = new JScrollPane(contentPanel);
-		//sets the layouts for the panels
-		panel.setLayout(new BorderLayout());		
+		// sets the layouts for the panels
+		panel.setLayout(new BorderLayout());
 		panel.add(scrollPanel, BorderLayout.CENTER);
 		topPanel.setLayout(new FlowLayout(FlowLayout.CENTER, HGAP, VGAP));
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+
+		// make items drag-able
+		// TODO refine
+		// TODO make it change arrList
+		// TODO make it drag on PlayerCharacter.dragButton
+		DragHandler dh = new DragHandler();
+		box.addMouseListener(dh);
+		box.addMouseMotionListener(dh);
+		contentPanel.add(box, BorderLayout.NORTH);
 
 		// set width and height of each buttons
 		Dimension buttonSize = new Dimension(BUTTONWIDTH, BUTTONHEIGHT);
@@ -108,22 +116,9 @@ public class AppMain extends JFrame {
 		savePresetButton.setPreferredSize(new Dimension(buttonSize));
 		addPlayerButton.setPreferredSize(new Dimension(buttonSize));
 		addMonsterButton.setPreferredSize(new Dimension(buttonSize));
-		
+
 		sortListButton.setPreferredSize(new Dimension(buttonSize));
 		nextTurnButton.setPreferredSize(new Dimension(buttonSize));
-
-
-		// makes elements draggable
-		// TODO
-		// MouseListener listener = new DragMouseAdapter();
-		// TODO add dynamically added panels to list of dragable objects
-		/*
-		 * firstDragButton.addMouseListener(listener);
-		 * secondDragButton.addMouseListener(listener);
-		 * 
-		 * firstDragButton.setTransferHandler(new TransferHandler("text"));
-		 * secondDragButton.setTransferHandler(new TransferHandler("text"));
-		 */
 
 		// add buttons to the topPanel layout
 		topPanel.add(loadPresetButton);
@@ -133,9 +128,9 @@ public class AppMain extends JFrame {
 		topPanel.add(sortListButton);
 		topPanel.add(nextTurnButton);
 
-		//add topPanel to panel
+		// add topPanel to panel
 		panel.add(topPanel, BorderLayout.PAGE_START);
-		
+
 		// methods needed for default interface behavior
 		getContentPane().add(panel);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -143,20 +138,6 @@ public class AppMain extends JFrame {
 		interfaceControls();
 
 	}// end of constructor
-
-	/**
-	 * 
-	 * Drag functionality
-	 *
-	 */
-	class DragMouseAdapter extends MouseAdapter {
-		public void mousePressed(MouseEvent e) {
-			JComponent c = (JComponent) e.getSource();
-			TransferHandler handler = c.getTransferHandler();
-			handler.exportAsDrag(c, e, TransferHandler.COPY);
-			// TODO make it a swap location drag and drop
-		}
-	}
 
 	// Access the methods stored in controls.Utility
 	private Utility repository = Utility.getInstance();
@@ -184,16 +165,16 @@ public class AppMain extends JFrame {
 						@Override
 						public void run() {
 							for (PlayerCharacter pc : arrList) {
-								contentPanel.remove(pc);
-								contentPanel.revalidate();
-								contentPanel.repaint();
+								box.remove(pc);
+								box.revalidate();
+								box.repaint();
 							}
 							arrList.clear();
 							for (PlayerCharacter pc : arrListTMP) {
 								arrList.add(pc);
-								contentPanel.add(pc);
-								contentPanel.revalidate();
-								contentPanel.repaint();
+								box.add(pc);
+								box.revalidate();
+								box.repaint();
 							}
 							arrListTMP.clear();
 							repository.repositionPanels(arrList);
@@ -218,15 +199,14 @@ public class AppMain extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 				int returnVal = fc.showSaveDialog(rootPane);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					//check if extension is .txt if not add .txt
+					// check if extension is .txt if not add .txt
 					File file = fc.getSelectedFile();
 					String filePath = file.getPath();
-					if(!filePath.toLowerCase().endsWith(".txt"))
-					{
-					    file = new File(filePath + ".txt");
+					if (!filePath.toLowerCase().endsWith(".txt")) {
+						file = new File(filePath + ".txt");
 					}
 					repository.savePreset(arrList, file);
-				}				
+				}
 			}
 
 		});
@@ -276,11 +256,12 @@ public class AppMain extends JFrame {
 
 					@Override
 					public void run() {
-						PlayerCharacter newPlayerCharacter = new PlayerCharacter(false);
+						PlayerCharacter newPlayerCharacter = new PlayerCharacter(
+								false);
 						arrList.add(newPlayerCharacter);
-						contentPanel.add(newPlayerCharacter);
-						contentPanel.revalidate();
-						contentPanel.repaint();
+						box.add(newPlayerCharacter);
+						box.revalidate();
+						box.repaint();
 						repository.repositionPanels(arrList);
 
 					}
@@ -288,7 +269,7 @@ public class AppMain extends JFrame {
 				}); // Behavior of addPlayerButton
 			}
 		});
-		
+
 		/**
 		 * When user clicks on button, create a new panel
 		 */
@@ -303,9 +284,9 @@ public class AppMain extends JFrame {
 					public void run() {
 						PlayerCharacter newMonster = new PlayerCharacter(true);
 						arrList.add(newMonster);
-						contentPanel.add(newMonster);
-						contentPanel.revalidate();
-						contentPanel.repaint();
+						box.add(newMonster);
+						box.revalidate();
+						box.repaint();
 						repository.repositionPanels(arrList);
 
 					}
@@ -313,18 +294,15 @@ public class AppMain extends JFrame {
 				}); // Behavior of addMonsterButton
 			}
 		});
-		
 
 	}
 
-	
 	public static void removePanel(ActionListener actionListener) {
-		
-		
+
 		for (final PlayerCharacter pc : arrList) {
 			if (pc.getIsRemoveMe()) {
 				Utility repository = Utility.getInstance();
-				if (pc.getIsMonster()){
+				if (pc.getIsMonster()) {
 					repository.decreaseMonsterCounter();
 				} else {
 					repository.decreasePlayerCharacterCounter();
@@ -333,12 +311,12 @@ public class AppMain extends JFrame {
 
 					@Override
 					public void run() {
-						
-						contentPanel.remove(pc);
+
+						box.remove(pc);
 						arrList.remove(pc);
-						contentPanel.revalidate();
-						contentPanel.repaint();
-						Utility repository = Utility.getInstance();						
+						box.revalidate();
+						box.repaint();
+						Utility repository = Utility.getInstance();
 						repository.repositionPanels(arrList);
 					}
 
