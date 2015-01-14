@@ -16,6 +16,8 @@ import javax.swing.JComponent;
 import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
 
+//http://java-swing-tips.blogspot.jp/2013/04/rearrange-jtoolbar-icon-by-drag-and-drop.html
+
 /**
  * Functionality for dragging and dropping
  * 
