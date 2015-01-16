@@ -102,9 +102,12 @@ public class AppMain extends JFrame {
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
 		// make items drag-able
-		// TODO refine size issues
+		// TODO refine size issues (panel gets dragged to the left when you
+		// start dragging)
 		// TODO make it change arrList
 		// TODO make it drag only on PlayerCharacter.dragButton
+		// TODO fix bug where if you drop a compenent between 2nd and 3rd that
+		// it ends up top of the list
 		DragHandler dh = new DragHandler();
 		box.addMouseListener(dh);
 		box.addMouseMotionListener(dh);
