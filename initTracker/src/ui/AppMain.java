@@ -35,6 +35,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import temp.InterfaceControlActionListener;
 import units.PlayerCharacter;
 import utility.DragHandler;
 import utility.Utility;
@@ -51,7 +52,7 @@ import utility.Utility;
  */
 
 @SuppressWarnings("serial")
-public class AppMain extends JFrame {
+public class AppMain extends JFrame implements ActionListener {
 
 	public static void main(String[] args) {
 		new AppMain();
@@ -140,7 +141,17 @@ public class AppMain extends JFrame {
 		setVisible(true);
 		interfaceControls();
 
+		bootstrapContent();
+
 	}// end of constructor
+
+	public void bootstrapContent() {
+		createUnit(false);
+		createUnit(false);
+		createUnit(false);
+		createUnit(true);
+		createUnit(true);
+	}
 
 	// Access the methods stored in controls.Utility
 	private Utility repository = Utility.getInstance();
@@ -149,11 +160,19 @@ public class AppMain extends JFrame {
 	 * Behavior of interface elements are defined here
 	 */
 	public void interfaceControls() {
+		// Eerder gedaan
+		// InterfaceControlActionListener interfaceControlAl = new
+		// InterfaceControlActionListener(
+		// this);
 
 		/**
 		 * Opens a window to select a previously saved preset
 		 */
 		// Behavior of loadPresetButton
+		// loadPresetButton
+		// .setActionCommand(InterfaceControlActionListener.LOAD_PRESET_BUTTON);
+		// loadPresetButton.addActionListener(interfaceControlAl);
+
 		loadPresetButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
@@ -175,9 +194,10 @@ public class AppMain extends JFrame {
 							arrList.clear();
 							for (PlayerCharacter pc : arrListTMP) {
 								arrList.add(pc);
-								box.add(pc);
-								box.revalidate();
-								box.repaint();
+								// box.add(pc);
+								// box.revalidate();
+								// box.repaint();
+								addPlayerCharacter(pc);
 							}
 							arrListTMP.clear();
 							repository.repositionPanels(arrList);
@@ -186,13 +206,14 @@ public class AppMain extends JFrame {
 					});
 				} else {
 					System.out.println("file not found");
+					
 				}
 
 			}
 
 		});
 		// Behavior of loadPresetButton
-
+		
 		/**
 		 * Opens a window to input name of preset and maybe a place to store it
 		 */
@@ -251,53 +272,35 @@ public class AppMain extends JFrame {
 		 * When user clicks on button, create a new panel
 		 */
 		// Behavior of addPlayerButton
-		addPlayerButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-				// TODO extract to utility if possible
-				SwingUtilities.invokeLater(new Runnable() {
-
-					@Override
-					public void run() {
-						PlayerCharacter newPlayerCharacter = new PlayerCharacter(
-								false);
-						arrList.add(newPlayerCharacter);
-						box.add(newPlayerCharacter);
-						box.revalidate();
-						box.repaint();
-						repository.repositionPanels(arrList);
-
-					}
-
-				}); // Behavior of addPlayerButton
-			}
-		});
+		// addPlayerButton.addActionListener(new ActionListener() {
+		// @Override
+		// public void actionPerformed(ActionEvent ae) {
+		// createUnit(false);
+		// }
+		// });
 
 		/**
 		 * When user clicks on button, create a new panel
 		 */
 		// Behavior of addMonsterButton
-		addMonsterButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-				// TODO extract to utility if possible
-				SwingUtilities.invokeLater(new Runnable() {
+		// addMonsterButton.addActionListener(new ActionListener() {
+		// @Override
+		// public void actionPerformed(ActionEvent ae) {
+		// createUnit(true); // Behavior of addMonsterButton
+		// }
+		// });
 
-					@Override
-					public void run() {
-						PlayerCharacter newMonster = new PlayerCharacter(true);
-						arrList.add(newMonster);
-						box.add(newMonster);
-						box.revalidate();
-						box.repaint();
-						repository.repositionPanels(arrList);
+		addPlayerButton.addActionListener(this);
+		addMonsterButton.addActionListener(this);
+	}
 
-					}
-
-				}); // Behavior of addMonsterButton
-			}
-		});
-
+	@Override
+	public void actionPerformed(ActionEvent ae) {
+		if (ae.getSource() == addMonsterButton) {
+			createUnit(true); // Behavior of addMonsterButton
+		} else if (ae.getSource() == addPlayerButton) {
+			createUnit(false);
+		}
 	}
 
 	public static void removePanel(ActionListener actionListener) {
@@ -326,6 +329,44 @@ public class AppMain extends JFrame {
 				});
 			}
 		}
+	}
+
+	public void addPlayerCharacter(PlayerCharacter pc) {
+		arrList.add(pc);
+		box.add(pc);
+//		box.revalidate();
+//		box.repaint();
+		updateBox();
+	}
+
+	public void resetCharacters() {
+		for (PlayerCharacter pc : arrList) {
+			box.remove(pc);
+//			box.revalidate();
+//			box.repaint();
+		}
+		arrList.clear();
+		updateBox();
+	}
+
+	public void updateBox() {
+		box.revalidate();
+		box.repaint();
+	}
+
+	private void createUnit(final boolean isMonster) {
+		// TODO extract to utility if possible
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				PlayerCharacter newMonster = new PlayerCharacter(isMonster);
+				addPlayerCharacter(newMonster);
+				repository.repositionPanels(arrList);
+
+			}
+
+		});
 	}
 
 }

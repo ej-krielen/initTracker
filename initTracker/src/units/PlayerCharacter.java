@@ -53,6 +53,9 @@ import utility.Utility;
 public class PlayerCharacter extends JPanel implements
 		Comparable<PlayerCharacter> {
 
+	public static final Color BACKGROUND_MONSTER = Color.GRAY;
+	public static final Color BACKGROUND_PC = Color.LIGHT_GRAY;
+
 	// Access the methods stored in controls.Utility
 	private Utility repository = Utility.getInstance();
 
@@ -61,7 +64,7 @@ public class PlayerCharacter extends JPanel implements
 	private String name;
 	private int iniative;
 	private String notes;
-	private int hp;
+//	private int hp;
 	private int debuffTopLeft;
 	private int debuffTopCenter;
 	private int debuffTopRight;
@@ -69,6 +72,8 @@ public class PlayerCharacter extends JPanel implements
 	private int debuffBottomCenter;
 	private int debuffBottomRight;
 
+//	private Unit unit;
+//
 	private boolean isRemoveMe = false;
 	private boolean isMonster = false;
 
@@ -103,21 +108,32 @@ public class PlayerCharacter extends JPanel implements
 	SpinnerModel debuffModelBC = new SpinnerNumberModel(0, 0, 9999, 1);
 	SpinnerModel debuffModelBR = new SpinnerNumberModel(0, 0, 9999, 1);
 
+	public PlayerCharacter(String name, Color backgroundColor) {
+//		if (isMonster) {
+//			// nameArea = new JTextArea(MONSTERINPUT
+//			// + (Utility.getMonsterCounter() + 1));
+//			nameArea = new JTextArea(createUnitName(isMonster));
+//		} else {
+//			// nameArea = new JTextArea(PLAYERINPUT
+//			// + (Utility.getPlayerCharacterCounter() + 1));
+//			nameArea = new JTextArea(createUnitName(isMonster));
+//		}
+		nameArea = new JTextArea(name);
+	}
 	/**
 	 * Constructor to make a new playerCharacter panel
 	 */
-	public PlayerCharacter(boolean b) {
-
-		this.isMonster = b;
-		
+	public PlayerCharacter(boolean isMonster) {
+		this.isMonster = isMonster;
 
 		// Alternates color of the created instances between grey and light gray
-		// to distinguish between player and monster and increases appropriate counter
+		// to distinguish between player and monster and increases appropriate
+		// counter
 		if (isMonster) {
-			setBackground(Color.GRAY);
+			setBackground(BACKGROUND_MONSTER);
 			Utility.increaseMonsterCounter();
 		} else {
-			setBackground(Color.LIGHT_GRAY);
+			setBackground(BACKGROUND_PC);
 			Utility.increasePlayerCharacterCounter();
 		}
 
@@ -133,21 +149,19 @@ public class PlayerCharacter extends JPanel implements
 		// initiate components with values
 		iniativeSpinner = new JSpinner(iniativeModel);
 		if (isMonster) {
-			nameArea = new JTextArea(MONSTERINPUT
-					+ (Utility.getMonsterCounter() + 1));
+//			 nameArea = new JTextArea(MONSTERINPUT
+//			 + (Utility.getMonsterCounter() + 1));
+			nameArea = new JTextArea(createUnitName(isMonster));
 		} else {
-			nameArea = new JTextArea(PLAYERINPUT
-					+ (Utility.getPlayerCharacterCounter() +1 ));
+			// nameArea = new JTextArea(PLAYERINPUT
+			// + (Utility.getPlayerCharacterCounter() + 1));
+			nameArea = new JTextArea(createUnitName(isMonster));
 		}
 		notesArea = new JTextArea(NOTESINPUT);
 		hpSpinner = new JSpinner(hpModel);
-		debuffTopLeftSpinner = new JSpinner(debuffModelTL);
-		debuffTopCenterSpinner = new JSpinner(debuffModelTC);
-		debuffTopRightSpinner = new JSpinner(debuffModelTR);
-		debuffBottomLeftSpinner = new JSpinner(debuffModelBL);
-		debuffBottomCenterSpinner = new JSpinner(debuffModelBC);
-		debuffBottomRightSpinner = new JSpinner(debuffModelBR);
-
+		
+		initializeDebuffSpinners();
+		
 		// set pos x, pos y, width and height of each element
 		dragButton.setBounds(5, TOP_Y, 40, 90);
 		iniativeSpinner.setBounds(60, TOP_Y, TEXTAREABOX, TEXTAREABOX);
@@ -157,18 +171,6 @@ public class PlayerCharacter extends JPanel implements
 		notesArea.setBounds(180, 40, 350, 55);
 		hpSpinner.setBounds(545, TOP_Y, TEXTAREABOX, TEXTAREABOX);
 		hpLabel.setBounds(545, LABEL_Y, 60, LABELHEIGHT);
-		debuffTopLeftSpinner.setBounds(630, TOP_DEBUFF, DEBUFFWIDTH,
-				DEBUFFHEIGHT);
-		debuffTopCenterSpinner.setBounds(695, TOP_DEBUFF, DEBUFFWIDTH,
-				DEBUFFHEIGHT);
-		debuffTopRightSpinner.setBounds(770, TOP_DEBUFF, DEBUFFWIDTH,
-				DEBUFFHEIGHT);
-		debuffBottomLeftSpinner.setBounds(630, BOTTOM_DEBUFF, DEBUFFWIDTH,
-				DEBUFFHEIGHT);
-		debuffBottomCenterSpinner.setBounds(695, BOTTOM_DEBUFF, DEBUFFWIDTH,
-				DEBUFFHEIGHT);
-		debuffBottomRightSpinner.setBounds(770, BOTTOM_DEBUFF, DEBUFFWIDTH,
-				DEBUFFHEIGHT);
 		debuffsLabel.setBounds(630, LABEL_Y, ((DEBUFFWIDTH * 3) + 5),
 				LABELHEIGHT);
 		removeButton.setBounds((PANELWIDTH - 175), 25, 150, 50);
@@ -239,6 +241,48 @@ public class PlayerCharacter extends JPanel implements
 
 	}// end of constructor
 
+	private static final SpinnerNumberModel DEBUFF_SPINNER_MODEL = new SpinnerNumberModel(0, 0, 9999, 1);
+
+	private void initializeDebuffSpinners() {
+//		debuffTopLeftSpinner = new JSpinner(debuffModelTL);
+//		debuffTopCenterSpinner = new JSpinner(debuffModelTC);
+//		debuffTopRightSpinner = new JSpinner(debuffModelTR);
+//		debuffBottomLeftSpinner = new JSpinner(debuffModelBL);
+//		debuffBottomCenterSpinner = new JSpinner(debuffModelBC);
+//		debuffBottomRightSpinner = new JSpinner(debuffModelBR);
+
+		debuffTopLeftSpinner = new JSpinner(DEBUFF_SPINNER_MODEL);
+		debuffTopCenterSpinner = new JSpinner(DEBUFF_SPINNER_MODEL);
+		debuffTopRightSpinner = new JSpinner(DEBUFF_SPINNER_MODEL);
+		debuffBottomLeftSpinner = new JSpinner(DEBUFF_SPINNER_MODEL);
+		debuffBottomCenterSpinner = new JSpinner(DEBUFF_SPINNER_MODEL);
+		debuffBottomRightSpinner = new JSpinner(DEBUFF_SPINNER_MODEL);
+
+		debuffTopLeftSpinner.setBounds(630, TOP_DEBUFF, DEBUFFWIDTH,
+				DEBUFFHEIGHT);
+		debuffTopCenterSpinner.setBounds(695, TOP_DEBUFF, DEBUFFWIDTH,
+				DEBUFFHEIGHT);
+		debuffTopRightSpinner.setBounds(770, TOP_DEBUFF, DEBUFFWIDTH,
+				DEBUFFHEIGHT);
+		debuffBottomLeftSpinner.setBounds(630, BOTTOM_DEBUFF, DEBUFFWIDTH,
+				DEBUFFHEIGHT);
+		debuffBottomCenterSpinner.setBounds(695, BOTTOM_DEBUFF, DEBUFFWIDTH,
+				DEBUFFHEIGHT);
+		debuffBottomRightSpinner.setBounds(770, BOTTOM_DEBUFF, DEBUFFWIDTH,
+				DEBUFFHEIGHT);
+		
+		debuffTopLeftSpinner.setValue(3);
+
+	}
+
+	private String createUnitName(boolean b) {
+		if (isMonster) {
+			return MONSTERINPUT + (Utility.getMonsterCounter() + 1);
+		} else {
+			return PLAYERINPUT + (Utility.getPlayerCharacterCounter() + 1);
+		}
+	}
+
 	/**
 	 * 
 	 */
@@ -261,44 +305,55 @@ public class PlayerCharacter extends JPanel implements
 	 * @return Returns true if a newly changed value is now 0
 	 */
 	public boolean updateDebuffs() {
-		boolean b = false;
+		boolean hasChanged = false;
+		
+//		if(unit.getDebuffTopLeft() != 0) {
+//			unit.setDebuffTopLeft(unit.getDebuffTopLeft());
+//			if( unit.getDebuffTopLeft() == 0) {
+//				hasChanged = true;
+//			}
+//		}
+//		
+//		updateSpinners();
+		
+		
 		if (getDebuffTopLeft() != 0) {
 			setDebuffTopLeft((getDebuffTopLeft()) - 1);
 			if (getDebuffTopLeft() == 0) {
-				b = true;
+				hasChanged = true;
 			}
 		}
 		if (getDebuffTopCenter() != 0) {
 			setDebuffTopCenter((getDebuffTopCenter()) - 1);
 			if (getDebuffTopCenter() == 0) {
-				b = true;
+				hasChanged = true;
 			}
 		}
 		if (getDebuffTopRight() != 0) {
 			setDebuffTopRight((getDebuffTopRight()) - 1);
 			if (getDebuffTopRight() == 0) {
-				b = true;
+				hasChanged = true;
 			}
 		}
 		if (getDebuffBottomLeft() != 0) {
 			setDebuffBottomLeft((getDebuffBottomLeft()) - 1);
 			if (getDebuffBottomLeft() == 0) {
-				b = true;
+				hasChanged = true;
 			}
 		}
 		if (getDebuffBottomCenter() != 0) {
 			setDebuffBottomCenter((getDebuffBottomCenter()) - 1);
 			if (getDebuffBottomCenter() == 0) {
-				b = true;
+				hasChanged = true;
 			}
 		}
 		if (getDebuffBottomRight() != 0) {
 			setDebuffBottomRight((getDebuffBottomRight()) - 1);
 			if (getDebuffBottomRight() == 0) {
-				b = true;
+				hasChanged = true;
 			}
 		}
-		return b;
+		return hasChanged;
 	}
 
 	/**
@@ -371,15 +426,17 @@ public class PlayerCharacter extends JPanel implements
 	}
 
 	public int getHp() {
-		setHp((int) hpSpinner.getValue());
-		return hp;
+//		setHp((int) hpSpinner.getValue());
+//		return hp;
+		return (int) hpSpinner.getValue();
 	}
 
 	public void setHp(int hp) {
-		this.hp = hp;
-		if ((int) hpSpinner.getValue() != hp) {
-			hpSpinner.setValue(hp);
-		}
+//		this.hp = hp;
+//		if ((int) hpSpinner.getValue() != hp) {
+//			hpSpinner.setValue(hp);
+//		}
+		hpSpinner.setValue(hp);
 	}
 
 	public int getDebuffTopLeft() {

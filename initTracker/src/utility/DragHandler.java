@@ -149,5 +149,7 @@ public class DragHandler extends MouseAdapter {
 		} else {
 			swapComponentLocation(parent, gap, cmp, index);
 		}
+		parent.revalidate();
+		parent.repaint();
 	}
 }
