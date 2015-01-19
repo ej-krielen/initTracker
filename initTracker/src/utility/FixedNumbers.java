@@ -8,7 +8,7 @@ package utility;
  * @version 0.1 Current version number of program
  * @since January 7th 2015 Creation of this file
  * @update January 8th 2015 Latest update of this file
- * @LatestUpdate added button sizes, gaps
+ * @LatestUpdate added startinghp
  * 
  */
 
@@ -39,5 +39,7 @@ public class FixedNumbers {
 	public static final int BOTTOM_DEBUFF = 45;
 	public static final int DEBUFFWIDTH = 50;
 	public static final int DEBUFFHEIGHT = 35;
+	
+	public static final int STARTINGHP = 6;
 
 }

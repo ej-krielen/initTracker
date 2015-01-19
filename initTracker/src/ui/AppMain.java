@@ -3,6 +3,8 @@ package ui;
 import static utility.EN_res.ADDMONSTER;
 import static utility.EN_res.ADDPLAYER;
 import static utility.EN_res.DEBUFFEXPIRED;
+import static utility.EN_res.FILEERROR;
+import static utility.EN_res.FILENOTFOUND;
 import static utility.EN_res.LOADPRESET;
 import static utility.EN_res.NEXTTURN;
 import static utility.EN_res.SAVEPRESET;
@@ -45,287 +47,272 @@ import utility.Utility;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 2nd 2014 Creation of this file
- * @update January 13th 2015 Latest update of this file
- * @LatestUpdate Added drop and drag functionality
+ * @update January 19th 2015 Latest update of this file
+ * @LatestUpdate Refactoring
  * 
  */
 
 @SuppressWarnings("serial")
-public class AppMain extends JFrame {
+public class AppMain extends JFrame implements ActionListener {
 
-	public static void main(String[] args) {
-		new AppMain();
-	}
+  public static void main(String[] args) {
+    new AppMain();
+  }
 
-	public static ArrayList<PlayerCharacter> arrList = new ArrayList<>();
+  public static ArrayList<PlayerCharacter> arrList = new ArrayList<>();
 
-	// panels where elements can be put in
-	private static JPanel panel = new JPanel();
-	private JPanel topPanel = new JPanel();
-	private static JPanel contentPanel = new JPanel();
-	private static Box box = Box.createVerticalBox();
-	// panel elements
-	private JButton loadPresetButton = new JButton(LOADPRESET);
-	private JButton savePresetButton = new JButton(SAVEPRESET);
-	private JButton addPlayerButton = new JButton(ADDPLAYER);
-	private JButton addMonsterButton = new JButton(ADDMONSTER);
+  // panels where elements can be put in
+  private static JPanel panel = new JPanel();
+  private JPanel topPanel = new JPanel();
+  private static JPanel contentPanel = new JPanel();
+  private static Box box = Box.createVerticalBox();
+  // panel elements
+  private JButton loadPresetButton = new JButton(LOADPRESET);
+  private JButton savePresetButton = new JButton(SAVEPRESET);
+  private JButton addPlayerButton = new JButton(ADDPLAYER);
+  private JButton addMonsterButton = new JButton(ADDMONSTER);
 
-	private JButton sortListButton = new JButton(SORTLIST);
-	private JButton nextTurnButton = new JButton(NEXTTURN);
+  private JButton sortListButton = new JButton(SORTLIST);
+  private JButton nextTurnButton = new JButton(NEXTTURN);
 
-	JFileChooser fc = new JFileChooser();
-	/**
-	 * Filter to restrict the type of files that can be chosen to .txt files
-	 */
-	FileNameExtensionFilter filter = new FileNameExtensionFilter("Text files",
-			"txt");
+  JFileChooser fc = new JFileChooser();
+  /**
+   * Filter to restrict the type of files that can be chosen to .txt files
+   */
+  FileNameExtensionFilter filter = new FileNameExtensionFilter("Text files", "txt");
 
-	/**
-	 * Constructor to make the interface
-	 */
-	AppMain() {
-		// info about the app
-		// title of the window
-		super(WINDOWNAME);
-		// width and height of the panel (inclusive title bar and borders)
-		setSize(GUIWIDTH, GUIHEIGHT);
-		// sets initial location on screen
-		setLocation(250, 50);
+  /**
+   * Constructor to make the interface
+   */
+  AppMain() {
+    // info about the app
+    // title of the window
+    super(WINDOWNAME);
+    // width and height of the panel (inclusive title bar and borders)
+    setSize(GUIWIDTH, GUIHEIGHT);
+    // sets initial location on screen
+    setLocation(250, 50);
 
-		// Layout options
-		// places contentPanel in a panel that automatically gets a scrollbar
-		JScrollPane scrollPanel = new JScrollPane(contentPanel);
-		// sets the layouts for the panels
-		panel.setLayout(new BorderLayout());
-		panel.add(scrollPanel, BorderLayout.CENTER);
-		topPanel.setLayout(new FlowLayout(FlowLayout.CENTER, HGAP, VGAP));
-		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+    // Layout options
+    // places contentPanel in a panel that automatically gets a scrollbar
+    JScrollPane scrollPanel = new JScrollPane(contentPanel);
+    // sets the layouts for the panels
+    panel.setLayout(new BorderLayout());
+    panel.add(scrollPanel, BorderLayout.CENTER);
+    topPanel.setLayout(new FlowLayout(FlowLayout.CENTER, HGAP, VGAP));
+    contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
-		// make items drag-able
-		// TODO refine size issues (panel gets dragged to the left when you
-		// start dragging)
-		// TODO make it change arrList
-		// TODO make it drag only on PlayerCharacter.dragButton
-		// TODO fix bug where if you drop a compenent between 2nd and 3rd that
-		// it ends up top of the list
-		DragHandler dh = new DragHandler();
-		box.addMouseListener(dh);
-		box.addMouseMotionListener(dh);
-		contentPanel.add(box, BorderLayout.NORTH);
+    // make items drag-able
+    // TODO refine size issues (panel gets dragged to the left when you
+    // start dragging)
+    // TODO make it change arrList
+    // TODO make it drag only on PlayerCharacter.dragButton
+    // TODO fix bug where if you drop a compenent between 2nd and 3rd that
+    // it ends up top of the list
+    DragHandler dh = new DragHandler();
+    box.addMouseListener(dh);
+    box.addMouseMotionListener(dh);
+    contentPanel.add(box, BorderLayout.NORTH);
 
-		// set width and height of each buttons
-		Dimension buttonSize = new Dimension(BUTTONWIDTH, BUTTONHEIGHT);
-		loadPresetButton.setPreferredSize(new Dimension(buttonSize));
-		savePresetButton.setPreferredSize(new Dimension(buttonSize));
-		addPlayerButton.setPreferredSize(new Dimension(buttonSize));
-		addMonsterButton.setPreferredSize(new Dimension(buttonSize));
+    // set width and height of each buttons
+    Dimension buttonSize = new Dimension(BUTTONWIDTH, BUTTONHEIGHT);
+    loadPresetButton.setPreferredSize(new Dimension(buttonSize));
+    savePresetButton.setPreferredSize(new Dimension(buttonSize));
+    addPlayerButton.setPreferredSize(new Dimension(buttonSize));
+    addMonsterButton.setPreferredSize(new Dimension(buttonSize));
 
-		sortListButton.setPreferredSize(new Dimension(buttonSize));
-		nextTurnButton.setPreferredSize(new Dimension(buttonSize));
+    sortListButton.setPreferredSize(new Dimension(buttonSize));
+    nextTurnButton.setPreferredSize(new Dimension(buttonSize));
 
-		// add buttons to the topPanel layout
-		topPanel.add(loadPresetButton);
-		topPanel.add(savePresetButton);
-		topPanel.add(addPlayerButton);
-		topPanel.add(addMonsterButton);
-		topPanel.add(sortListButton);
-		topPanel.add(nextTurnButton);
+    // add buttons to the topPanel layout
+    topPanel.add(loadPresetButton);
+    topPanel.add(savePresetButton);
+    topPanel.add(addPlayerButton);
+    topPanel.add(addMonsterButton);
+    topPanel.add(sortListButton);
+    topPanel.add(nextTurnButton);
 
-		// add topPanel to panel
-		panel.add(topPanel, BorderLayout.PAGE_START);
+    // add topPanel to panel
+    panel.add(topPanel, BorderLayout.PAGE_START);
 
-		// methods needed for default interface behavior
-		getContentPane().add(panel);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
-		interfaceControls();
+    // methods needed for default interface behavior
+    getContentPane().add(panel);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setVisible(true);
+    interfaceControls();
 
-	}// end of constructor
+  }// end of constructor
 
-	// Access the methods stored in controls.Utility
-	private Utility repository = Utility.getInstance();
+  // Access the methods stored in controls.Utility
+  private Utility repository = Utility.getInstance();
 
-	/**
-	 * Behavior of interface elements are defined here
-	 */
-	public void interfaceControls() {
+  /**
+   * Behavior of interface elements are defined here
+   */
+  public void interfaceControls() {
 
-		/**
-		 * Opens a window to select a previously saved preset
-		 */
-		// Behavior of loadPresetButton
-		loadPresetButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-				fc.setFileFilter(filter);
-				int returnVal = fc.showOpenDialog(rootPane);
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					final ArrayList<PlayerCharacter> arrListTMP = repository
-							.loadPreset(fc.getSelectedFile());
+    loadPresetButton.addActionListener(this);
+    savePresetButton.addActionListener(this);
+    addPlayerButton.addActionListener(this);
+    addMonsterButton.addActionListener(this);
+    sortListButton.addActionListener(this);
+    nextTurnButton.addActionListener(this);
 
-					SwingUtilities.invokeLater(new Runnable() {
+  }
 
-						@Override
-						public void run() {
-							for (PlayerCharacter pc : arrList) {
-								box.remove(pc);
-								box.revalidate();
-								box.repaint();
-							}
-							arrList.clear();
-							for (PlayerCharacter pc : arrListTMP) {
-								arrList.add(pc);
-								box.add(pc);
-								box.revalidate();
-								box.repaint();
-							}
-							arrListTMP.clear();
-							repository.repositionPanels(arrList);
+  @Override
+  public void actionPerformed(ActionEvent ae) {
+    if (ae.getSource() == loadPresetButton) {
+      loadPreset();
+    } else if (ae.getSource() == savePresetButton) {
+      savePreset();
+    } else if (ae.getSource() == addPlayerButton) {
+      createUnit(false);
+    } else if (ae.getSource() == addMonsterButton) {
+      createUnit(true);
+    } else if (ae.getSource() == sortListButton) {
+      sortList();
+    } else if (ae.getSource() == nextTurnButton) {
+      nextTurn();
+    }
 
-						}
-					});
-				} else {
-					System.out.println("file not found");
-				}
+  }
 
-			}
+  /**
+   * Opens a window to select a previously saved preset
+   */
+  private void loadPreset() {
+    fc.setFileFilter(filter);
+    if (fc.showOpenDialog(rootPane) == JFileChooser.APPROVE_OPTION) {
+      final ArrayList<PlayerCharacter> arrListTMP = repository.loadPreset(fc.getSelectedFile());
 
-		});
-		// Behavior of loadPresetButton
+      SwingUtilities.invokeLater(new Runnable() {
 
-		/**
-		 * Opens a window to input name of preset and maybe a place to store it
-		 */
-		// Behavior of savePresetButton
-		savePresetButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-				int returnVal = fc.showSaveDialog(rootPane);
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					// check if extension is .txt if not add .txt
-					File file = fc.getSelectedFile();
-					String filePath = file.getPath();
-					if (!filePath.toLowerCase().endsWith(".txt")) {
-						file = new File(filePath + ".txt");
-					}
-					repository.savePreset(arrList, file);
-				}
-			}
+        @Override
+        public void run() {
+          for (PlayerCharacter pc : arrList) {
+            if (pc.getIsMonster()) {
+              repository.decreaseMonsterCounter();
+            } else if (!pc.getIsMonster()) {
+              repository.decreasePlayerCharacterCounter();
+            }
+            box.remove(pc);
+            box.revalidate();
+            box.repaint();
+          }
+          arrList.clear();
+          for (PlayerCharacter pc : arrListTMP) {
+            arrList.add(pc);
+            addPlayerCharacter(pc);
+          }
+          arrListTMP.clear();
+          repository.repositionPanels(arrList);
 
-		});
-		// Behavior of savePresetButton
+        }
+      });
+    } else {
+      JOptionPane.showMessageDialog(panel, FILENOTFOUND, FILEERROR, JOptionPane.WARNING_MESSAGE);
+    }
 
-		/**
-		 * Sort the list of panels by value of their iniative (descending)
-		 */
-		// Behavior of sortListButton
-		sortListButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-				Collections.sort(arrList);
-				repository.repositionPanels(arrList);
-			}
+  }
 
-		});
-		// Behavior of sortListButton
+  /**
+   * Opens a file dialog window to input name of preset and where to store it
+   */
+  private void savePreset() {
+    if (fc.showSaveDialog(rootPane) == JFileChooser.APPROVE_OPTION) {
+      // check if extension is .txt if not add .txt
+      File file = fc.getSelectedFile();
+      String filePath = file.getPath();
+      if (!filePath.toLowerCase().endsWith(".txt")) {
+        file = new File(filePath + ".txt");
+      }
+      repository.savePreset(arrList, file);
+    }
+  }
 
-		/**
-		 * Rearrange panels. Highest becomes lowest. All others move up one
-		 * place.
-		 */
-		// Behavior of nextTurnButton
-		nextTurnButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-				Collections.rotate(arrList.subList(0, arrList.size()), -1);
-				repository.repositionPanels(arrList);
-				if (repository.nextRound(arrList.get(0))) {
-					JOptionPane.showMessageDialog(panel, DEBUFFEXPIRED);
-				}
-			}
+  /**
+   * Creates a new PlayerCharacter object and adds it to the GUI through {@link addUnit}
+   */
+  private void createUnit(final boolean isMonster) {
+    SwingUtilities.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        PlayerCharacter newUnit = new PlayerCharacter(isMonster);
+        addUnit(newUnit);
+        repository.repositionPanels(arrList);
+      }
+    });
+  }
 
-		});
-		// Behavior of nextTurnButton
+  /**
+   * Adds a PlayerCharacter to the GUI
+   */
+  private void addUnit(PlayerCharacter newUnit) {
+    arrList.add(newUnit);
+    box.add(newUnit);
+    updateBox();
+  }
 
-		/**
-		 * When user clicks on button, create a new panel
-		 */
-		// Behavior of addPlayerButton
-		addPlayerButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-				// TODO extract to utility if possible
-				SwingUtilities.invokeLater(new Runnable() {
+  /**
+   * Runs revalidate and repaint on AppMain.box
+   */
+  private void updateBox() {
+    box.revalidate();
+    box.repaint();
+  }
 
-					@Override
-					public void run() {
-						PlayerCharacter newPlayerCharacter = new PlayerCharacter(
-								false);
-						arrList.add(newPlayerCharacter);
-						box.add(newPlayerCharacter);
-						box.revalidate();
-						box.repaint();
-						repository.repositionPanels(arrList);
+  /**
+   * Sort the list of panels by value of their iniative (descending)
+   */
+  private void sortList() {
+    Collections.sort(arrList);
+    repository.repositionPanels(arrList);
+  }
 
-					}
+  /**
+   * Rearrange panels. Highest becomes lowest. All others move up one place.
+   */
+  private void nextTurn() {
+    Collections.rotate(arrList.subList(0, arrList.size()), -1);
+    repository.repositionPanels(arrList);
+    if (repository.nextRound(arrList.get(0))) {
+      JOptionPane.showMessageDialog(panel, DEBUFFEXPIRED);
+    }
+  }
 
-				}); // Behavior of addPlayerButton
-			}
-		});
+  public void addPlayerCharacter(PlayerCharacter pc) {
+    arrList.add(pc);
+    box.add(pc);
+    updateBox();
+  }
 
-		/**
-		 * When user clicks on button, create a new panel
-		 */
-		// Behavior of addMonsterButton
-		addMonsterButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-				// TODO extract to utility if possible
-				SwingUtilities.invokeLater(new Runnable() {
+  public static void removePanel(ActionListener actionListener) {
 
-					@Override
-					public void run() {
-						PlayerCharacter newMonster = new PlayerCharacter(true);
-						arrList.add(newMonster);
-						box.add(newMonster);
-						box.revalidate();
-						box.repaint();
-						repository.repositionPanels(arrList);
+    for (final PlayerCharacter pc : arrList) {
+      if (pc.getIsRemoveMe()) {
+        Utility repository = Utility.getInstance();
+        if (pc.getIsMonster()) {
+          repository.decreaseMonsterCounter();
+        } else {
+          repository.decreasePlayerCharacterCounter();
+        }
+        SwingUtilities.invokeLater(new Runnable() {
 
-					}
+          @Override
+          public void run() {
 
-				}); // Behavior of addMonsterButton
-			}
-		});
+            box.remove(pc);
+            arrList.remove(pc);
+            box.revalidate();
+            box.repaint();
+            Utility repository = Utility.getInstance();
+            repository.repositionPanels(arrList);
+          }
 
-	}
-
-	public static void removePanel(ActionListener actionListener) {
-
-		for (final PlayerCharacter pc : arrList) {
-			if (pc.getIsRemoveMe()) {
-				Utility repository = Utility.getInstance();
-				if (pc.getIsMonster()) {
-					repository.decreaseMonsterCounter();
-				} else {
-					repository.decreasePlayerCharacterCounter();
-				}
-				SwingUtilities.invokeLater(new Runnable() {
-
-					@Override
-					public void run() {
-
-						box.remove(pc);
-						arrList.remove(pc);
-						box.revalidate();
-						box.repaint();
-						Utility repository = Utility.getInstance();
-						repository.repositionPanels(arrList);
-					}
-
-				});
-			}
-		}
-	}
+        });
+      }
+    }
+  }
 
 }

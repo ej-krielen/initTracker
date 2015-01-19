@@ -7,8 +7,8 @@ package utility;
  * @author Erik-Jan Krielen erik-jan.krielen@atos.net
  * @version 0.1 Current version number of program
  * @since November 20th 2014 Creation of this file
- * @update January 7th 2015 Latest update of this file
- * @LatestUpdate Added Monsterinput
+ * @update January 19th 2015 Latest update of this file
+ * @LatestUpdate Added filenotfound and fileerror
  * 
  */
 
@@ -25,6 +25,9 @@ public final class EN_res {
 	public static final String ADDMONSTER = "Add a monster";
 	public static final String SORTLIST = "Sort list";
 	public static final String NEXTTURN = "Next turn";
+	
+  public static final String FILENOTFOUND = "File not found";
+  public static final String FILEERROR = "Filehandling error";
 
 	// PlayerCharacter
 	// Strings of the labels
