@@ -89,20 +89,18 @@ public class PlayerCharacter extends JPanel implements
 	public PlayerCharacter(boolean b) {
 
 		this.isMonster = b;
-		
 
-		//Configures based on whether or not the unit is a monster
+		// Configures based on whether or not the unit is a monster
 		if (isMonster) {
 			setBackground(BACKGROUND_MONSTER);
 			Utility.increaseMonsterCounter();
 			nameArea = new JTextArea(MONSTERINPUT
-          + (Utility.getMonsterCounter() + 1));
-			
+					+ (Utility.getMonsterCounter() + 1));
 		} else {
 			setBackground(BACKGROUND_PC);
 			Utility.increasePlayerCharacterCounter();
 			nameArea = new JTextArea(PLAYERINPUT
-          + (Utility.getPlayerCharacterCounter() +1 ));
+					+ (Utility.getPlayerCharacterCounter() + 1));
 		}
 
 		// Set the size of the new instance (width, height)
@@ -120,7 +118,6 @@ public class PlayerCharacter extends JPanel implements
 		hpSpinner = new JSpinner(DEFAULT_SPINNER);
 		setHp(STARTINGHP);
 		initializeDebuffSpinners();
-		
 
 		// set pos x, pos y, width and height of each element
 		dragButton.setBounds(5, TOP_Y, 40, 90);
@@ -132,8 +129,6 @@ public class PlayerCharacter extends JPanel implements
 		hpSpinner.setBounds(545, TOP_Y, TEXTAREABOX, TEXTAREABOX);
 		hpLabel.setBounds(545, LABEL_Y, 60, LABELHEIGHT);
 		removeButton.setBounds((PANELWIDTH - 175), 25, 150, 50);
-
-		
 
 		// add elementals to the instance panel
 		this.add(dragButton);
@@ -158,78 +153,76 @@ public class PlayerCharacter extends JPanel implements
 	}// end of constructor
 
 	private void initializeDebuffSpinners() {
-    //Set to use the debuffSpinnerModel
-	  debuffTopLeftSpinner = new JSpinner(DEBUFF_SPINNER_MODEL);
-    debuffTopCenterSpinner = new JSpinner(DEBUFF_SPINNER_MODEL);
-    debuffTopRightSpinner = new JSpinner(DEBUFF_SPINNER_MODEL);
-    debuffBottomLeftSpinner = new JSpinner(DEBUFF_SPINNER_MODEL);
-    debuffBottomCenterSpinner = new JSpinner(DEBUFF_SPINNER_MODEL);
-    debuffBottomRightSpinner = new JSpinner(DEBUFF_SPINNER_MODEL);
-    
- // set pos x, pos y, width and height of each element
-    debuffTopLeftSpinner.setBounds(630, TOP_DEBUFF, DEBUFFWIDTH,
-        DEBUFFHEIGHT);
-    debuffTopCenterSpinner.setBounds(695, TOP_DEBUFF, DEBUFFWIDTH,
-        DEBUFFHEIGHT);
-    debuffTopRightSpinner.setBounds(770, TOP_DEBUFF, DEBUFFWIDTH,
-        DEBUFFHEIGHT);
-    debuffBottomLeftSpinner.setBounds(630, BOTTOM_DEBUFF, DEBUFFWIDTH,
-        DEBUFFHEIGHT);
-    debuffBottomCenterSpinner.setBounds(695, BOTTOM_DEBUFF, DEBUFFWIDTH,
-        DEBUFFHEIGHT);
-    debuffBottomRightSpinner.setBounds(770, BOTTOM_DEBUFF, DEBUFFWIDTH,
-        DEBUFFHEIGHT);
-    debuffsLabel.setBounds(630, LABEL_Y, ((DEBUFFWIDTH * 3) + 5),
-        LABELHEIGHT);
-    
-  //edit spinners look-and-feel
-    JFormattedTextField ftf = null;
-    ftf = repository.getSpinnerTextField(iniativeSpinner);
-    if (ftf != null) {
-      ftf.setHorizontalAlignment(JTextField.CENTER);
-      ftf.setFont(new Font("Verdana", Font.BOLD, 20));
-    }
-    ftf = repository.getSpinnerTextField(hpSpinner);
-    if (ftf != null) {
-      ftf.setHorizontalAlignment(JTextField.CENTER);
-      ftf.setFont(new Font("Verdana", Font.BOLD, 20));
-      ftf.setForeground(Color.RED);
-    }
-    ftf = repository.getSpinnerTextField(debuffTopLeftSpinner);
-    if (ftf != null) {
-      ftf.setHorizontalAlignment(JTextField.CENTER);
-    }
-    ftf = repository.getSpinnerTextField(debuffTopCenterSpinner);
-    if (ftf != null) {
-      ftf.setHorizontalAlignment(JTextField.CENTER);
-      ftf.setBackground(Color.CYAN);
-    }
-    ftf = repository.getSpinnerTextField(debuffTopRightSpinner);
-    if (ftf != null) {
-      ftf.setHorizontalAlignment(JTextField.CENTER);
-      ftf.setBackground(Color.BLACK);
-      ftf.setForeground(Color.WHITE);
-    }
-    ftf = repository.getSpinnerTextField(debuffBottomLeftSpinner);
-    if (ftf != null) {
-      ftf.setHorizontalAlignment(JTextField.CENTER);
-      ftf.setBackground(Color.ORANGE);
-    }
-    ftf = repository.getSpinnerTextField(debuffBottomCenterSpinner);
-    if (ftf != null) {
-      ftf.setHorizontalAlignment(JTextField.CENTER);
-      ftf.setBackground(Color.MAGENTA);
-    }
-    ftf = repository.getSpinnerTextField(debuffBottomRightSpinner);
-    if (ftf != null) {
-      ftf.setHorizontalAlignment(JTextField.CENTER);
-      ftf.setBackground(Color.RED);
-    }
-    
-    
-  }
+		// Set to use the debuffSpinnerModel
+		debuffTopLeftSpinner = new JSpinner(DEBUFF_SPINNER_MODEL);
+		debuffTopCenterSpinner = new JSpinner(DEBUFF_SPINNER_MODEL);
+		debuffTopRightSpinner = new JSpinner(DEBUFF_SPINNER_MODEL);
+		debuffBottomLeftSpinner = new JSpinner(DEBUFF_SPINNER_MODEL);
+		debuffBottomCenterSpinner = new JSpinner(DEBUFF_SPINNER_MODEL);
+		debuffBottomRightSpinner = new JSpinner(DEBUFF_SPINNER_MODEL);
 
-  /**
+		// set pos x, pos y, width and height of each element
+		debuffTopLeftSpinner.setBounds(630, TOP_DEBUFF, DEBUFFWIDTH,
+				DEBUFFHEIGHT);
+		debuffTopCenterSpinner.setBounds(695, TOP_DEBUFF, DEBUFFWIDTH,
+				DEBUFFHEIGHT);
+		debuffTopRightSpinner.setBounds(770, TOP_DEBUFF, DEBUFFWIDTH,
+				DEBUFFHEIGHT);
+		debuffBottomLeftSpinner.setBounds(630, BOTTOM_DEBUFF, DEBUFFWIDTH,
+				DEBUFFHEIGHT);
+		debuffBottomCenterSpinner.setBounds(695, BOTTOM_DEBUFF, DEBUFFWIDTH,
+				DEBUFFHEIGHT);
+		debuffBottomRightSpinner.setBounds(770, BOTTOM_DEBUFF, DEBUFFWIDTH,
+				DEBUFFHEIGHT);
+		debuffsLabel.setBounds(630, LABEL_Y, ((DEBUFFWIDTH * 3) + 5),
+				LABELHEIGHT);
+
+		// edit spinners look-and-feel
+		JFormattedTextField ftf = null;
+		ftf = repository.getSpinnerTextField(iniativeSpinner);
+		if (ftf != null) {
+			ftf.setHorizontalAlignment(JTextField.CENTER);
+			ftf.setFont(new Font("Verdana", Font.BOLD, 20));
+		}
+		ftf = repository.getSpinnerTextField(hpSpinner);
+		if (ftf != null) {
+			ftf.setHorizontalAlignment(JTextField.CENTER);
+			ftf.setFont(new Font("Verdana", Font.BOLD, 20));
+			ftf.setForeground(Color.RED);
+		}
+		ftf = repository.getSpinnerTextField(debuffTopLeftSpinner);
+		if (ftf != null) {
+			ftf.setHorizontalAlignment(JTextField.CENTER);
+		}
+		ftf = repository.getSpinnerTextField(debuffTopCenterSpinner);
+		if (ftf != null) {
+			ftf.setHorizontalAlignment(JTextField.CENTER);
+			ftf.setBackground(Color.CYAN);
+		}
+		ftf = repository.getSpinnerTextField(debuffTopRightSpinner);
+		if (ftf != null) {
+			ftf.setHorizontalAlignment(JTextField.CENTER);
+			ftf.setBackground(Color.BLACK);
+			ftf.setForeground(Color.WHITE);
+		}
+		ftf = repository.getSpinnerTextField(debuffBottomLeftSpinner);
+		if (ftf != null) {
+			ftf.setHorizontalAlignment(JTextField.CENTER);
+			ftf.setBackground(Color.ORANGE);
+		}
+		ftf = repository.getSpinnerTextField(debuffBottomCenterSpinner);
+		if (ftf != null) {
+			ftf.setHorizontalAlignment(JTextField.CENTER);
+			ftf.setBackground(Color.MAGENTA);
+		}
+		ftf = repository.getSpinnerTextField(debuffBottomRightSpinner);
+		if (ftf != null) {
+			ftf.setHorizontalAlignment(JTextField.CENTER);
+			ftf.setBackground(Color.RED);
+		}
+	}
+
+	/**
 	 * 
 	 */
 	private void interfaceControls() {
@@ -239,56 +232,7 @@ public class PlayerCharacter extends JPanel implements
 				isRemoveMe = true;
 				AppMain.removePanel(this);
 			}
-
 		});
-
-	}
-
-	/**
-	 * Decreases all Debuffs that do not have a value of 0 Then checks if a new
-	 * value is 0 and gives that back in the form of the return
-	 * 
-	 * @return Returns true if a newly changed value is now 0
-	 */
-	public boolean updateDebuffs() {
-		boolean isChangedToZero = false;
-		if (getDebuffTopLeft() != 0) {
-			setDebuffTopLeft((getDebuffTopLeft()) - 1);
-			if (getDebuffTopLeft() == 0) {
-				isChangedToZero = true;
-			}
-		}
-		if (getDebuffTopCenter() != 0) {
-			setDebuffTopCenter((getDebuffTopCenter()) - 1);
-			if (getDebuffTopCenter() == 0) {
-				isChangedToZero = true;
-			}
-		}
-		if (getDebuffTopRight() != 0) {
-			setDebuffTopRight((getDebuffTopRight()) - 1);
-			if (getDebuffTopRight() == 0) {
-				isChangedToZero = true;
-			}
-		}
-		if (getDebuffBottomLeft() != 0) {
-			setDebuffBottomLeft((getDebuffBottomLeft()) - 1);
-			if (getDebuffBottomLeft() == 0) {
-				isChangedToZero = true;
-			}
-		}
-		if (getDebuffBottomCenter() != 0) {
-			setDebuffBottomCenter((getDebuffBottomCenter()) - 1);
-			if (getDebuffBottomCenter() == 0) {
-				isChangedToZero = true;
-			}
-		}
-		if (getDebuffBottomRight() != 0) {
-			setDebuffBottomRight((getDebuffBottomRight()) - 1);
-			if (getDebuffBottomRight() == 0) {
-				isChangedToZero = true;
-			}
-		}
-		return isChangedToZero;
 	}
 
 	/**
@@ -299,106 +243,80 @@ public class PlayerCharacter extends JPanel implements
 		Integer i1 = this.getIniative();
 		Integer i2 = pc.getIniative();
 		return i2.compareTo(i1);
-
 	}
 
 	// getters and setters
-
 	public boolean getIsMonster() {
 		return isMonster;
 	}
-
 	public void setIsMonster(boolean isMonster) {
 		this.isMonster = isMonster;
 	}
-
 	public boolean getIsRemoveMe() {
 		return isRemoveMe;
 	}
-
 	public void setisRemoveMe(boolean isRemoveMe) {
 		this.isRemoveMe = isRemoveMe;
 	}
-
 	// getters and setters !modified!
 	public String getName() {
 		return nameArea.getText();
 	}
-
 	public void setName(String name) {
-			nameArea.setText(name);
+		nameArea.setText(name);
 	}
-
 	public int getIniative() {
-	  return (int) iniativeSpinner.getValue();
+		return (int) iniativeSpinner.getValue();
 	}
-
 	public void setIniative(int iniative) {
-			iniativeSpinner.setValue(iniative);
+		iniativeSpinner.setValue(iniative);
 	}
-
 	public String getNotes() {
 		return notesArea.getText();
 	}
-
 	public void setNotes(String notes) {
-	  notesArea.setText(notes);
+		notesArea.setText(notes);
 	}
-
 	public int getHp() {
 		return (int) hpSpinner.getValue();
 	}
-
 	public void setHp(int hp) {
-			hpSpinner.setValue(hp);
+		hpSpinner.setValue(hp);
 	}
-
 	public int getDebuffTopLeft() {
 		return (int) debuffTopLeftSpinner.getValue();
 	}
-
 	public void setDebuffTopLeft(int debuffTopLeft) {
 		debuffTopLeftSpinner.setValue(debuffTopLeft);
 	}
-
 	public int getDebuffTopCenter() {
 		return (int) debuffTopCenterSpinner.getValue();
 	}
-
 	public void setDebuffTopCenter(int debuffTopCenter) {
-			debuffTopCenterSpinner.setValue(debuffTopCenter);
+		debuffTopCenterSpinner.setValue(debuffTopCenter);
 	}
-
 	public int getDebuffTopRight() {
 		return (int) debuffTopRightSpinner.getValue();
 	}
-
 	public void setDebuffTopRight(int debuffTopRight) {
-			debuffTopRightSpinner.setValue(debuffTopRight);
+		debuffTopRightSpinner.setValue(debuffTopRight);
 	}
-
 	public int getDebuffBottomLeft() {
-	  return (int) debuffBottomLeftSpinner.getValue();
+		return (int) debuffBottomLeftSpinner.getValue();
 	}
-
 	public void setDebuffBottomLeft(int debuffBottomLeft) {
-			debuffBottomLeftSpinner.setValue(debuffBottomLeft);
+		debuffBottomLeftSpinner.setValue(debuffBottomLeft);
 	}
-
 	public int getDebuffBottomCenter() {
 		return (int) debuffBottomCenterSpinner.getValue();
 	}
-
 	public void setDebuffBottomCenter(int debuffBottomCenter) {
 		debuffBottomCenterSpinner.setValue(debuffBottomCenter);
 	}
-
 	public int getDebuffBottomRight() {
 		return (int) debuffBottomRightSpinner.getValue();
 	}
-
 	public void setDebuffBottomRight(int debuffBottomRight) {
 		debuffBottomRightSpinner.setValue(debuffBottomRight);
 	}
-
 }

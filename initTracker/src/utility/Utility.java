@@ -209,21 +209,6 @@ public class Utility {
 		return arrListTMP;
 	}
 
-	/**
-	 * Runs updateDebuff on the PlayerCharacter. If a value reaches 0 in that
-	 * method it will return as true.
-	 * 
-	 * @return Returns true or false, true if a value was changed to 0 and a
-	 *         message needs to be displayed
-	 */
-	public boolean nextRound(PlayerCharacter pc) {
-		boolean b = false;
-		if (pc.updateDebuffs()) {
-			b = true;
-		}
-		return b;
-	}
-
 	// PlayerCharacter exclusive methods
 
 	/**
@@ -246,6 +231,54 @@ public class Utility {
 			return null;
 		}
 	}
+	
+	/**
+	 * Decreases all Debuffs that do not have a value of 0 Then checks if a new
+	 * value is 0 and gives that back in the form of the return
+	 * @param pc PlayerCharacter
+	 * @return Returns true if a newly changed value is now 0
+	 */
+	public boolean updateDebuffs(PlayerCharacter pc) {
+		boolean isChangedToZero = false;
+		if (pc.getDebuffTopLeft() != 0) {
+			pc.setDebuffTopLeft((pc.getDebuffTopLeft()) - 1);
+			if (pc.getDebuffTopLeft() == 0) {
+				isChangedToZero = true;
+			}
+		}
+		if (pc.getDebuffTopCenter() != 0) {
+			pc.setDebuffTopCenter((pc.getDebuffTopCenter()) - 1);
+			if (pc.getDebuffTopCenter() == 0) {
+				isChangedToZero = true;
+			}
+		}
+		if (pc.getDebuffTopRight() != 0) {
+			pc.setDebuffTopRight((pc.getDebuffTopRight()) - 1);
+			if (pc.getDebuffTopRight() == 0) {
+				isChangedToZero = true;
+			}
+		}
+		if (pc.getDebuffBottomLeft() != 0) {
+			pc.setDebuffBottomLeft((pc.getDebuffBottomLeft()) - 1);
+			if (pc.getDebuffBottomLeft() == 0) {
+				isChangedToZero = true;
+			}
+		}
+		if (pc.getDebuffBottomCenter() != 0) {
+			pc.setDebuffBottomCenter((pc.getDebuffBottomCenter()) - 1);
+			if (pc.getDebuffBottomCenter() == 0) {
+				isChangedToZero = true;
+			}
+		}
+		if (pc.getDebuffBottomRight() != 0) {
+			pc.setDebuffBottomRight((pc.getDebuffBottomRight()) - 1);
+			if (pc.getDebuffBottomRight() == 0) {
+				isChangedToZero = true;
+			}
+		}
+		return isChangedToZero;
+	}
+
 
 	// General methods
 	/**

@@ -276,7 +276,7 @@ public class AppMain extends JFrame implements ActionListener {
   private void nextTurn() {
     Collections.rotate(arrList.subList(0, arrList.size()), -1);
     repository.repositionPanels(arrList);
-    if (repository.nextRound(arrList.get(0))) {
+    if (repository.updateDebuffs(arrList.get(0))) {
       JOptionPane.showMessageDialog(panel, DEBUFFEXPIRED);
     }
   }
