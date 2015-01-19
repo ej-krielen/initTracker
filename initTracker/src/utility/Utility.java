@@ -268,4 +268,11 @@ public class Utility {
 		return monsterCounter;
 	}
 
+  public static void setPlayerCharacterCounter(int playerCharacterCounter) {
+    Utility.playerCharacterCounter = playerCharacterCounter;
+  }
+
+  public static void setMonsterCounter(int monsterCounter) {
+    Utility.monsterCounter = monsterCounter;
+  }
 }
